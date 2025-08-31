@@ -19,7 +19,7 @@ import RequestWithUser from '../auth/requestWithUser.interface';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
 import { HelpersService } from 'src/shared/helpers/helpers.service';
 import { EntityQueryDto } from 'src/shared/helpers/dto/entity-query.dto';
-import { Role } from 'src/shared/enums/role.enum';
+import { Role } from '@monorepo/shared';
 
 @Controller('activities')
 @ApiTags('Activities')

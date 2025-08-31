@@ -1,5 +1,5 @@
 import RequestWithUser from '../requestWithUser.interface';
-import { Role } from 'src/shared/enums/role.enum';
+import { Role } from '@monorepo/shared';
 import { CanActivate, ExecutionContext, mixin, Type } from '@nestjs/common';
 
 const RoleGuard = (roles: Array<Role>): Type<CanActivate> => {

@@ -10,7 +10,7 @@ import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import { ACTIVITY_ERRORS } from './activities.contsants';
 import { AUTH_ERRORS } from '../auth/auth.constants';
-import { Role } from 'src/shared/enums/role.enum';
+import { Role } from '@monorepo/shared';
 
 @Injectable()
 export class ActivitiesService {

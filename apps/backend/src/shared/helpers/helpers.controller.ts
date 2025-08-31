@@ -4,7 +4,7 @@ import { JwtAuthGuard } from 'src/auth/jwt/jwtAuth.guard';
 import { EntityQueryDto } from './dto/entity-query.dto';
 import { ApiTags } from '@nestjs/swagger';
 import RoleGuard from 'src/auth/role/role.guard';
-import { Role } from 'src/shared/enums/role.enum';
+import { Role } from '@monorepo/shared';
 
 @Controller('helpers')
 @ApiTags('Helpers')

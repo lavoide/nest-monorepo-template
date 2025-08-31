@@ -20,7 +20,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import RoleGuard from '../auth/role/role.guard';
-import { Role } from 'src/shared/enums/role.enum';
+import { Role } from '@monorepo/shared';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import RequestWithUser from 'src/auth/requestWithUser.interface';

@@ -4,14 +4,14 @@ export interface User {
   username: string
   firstName?: string
   lastName?: string
-  role: UserRole
+  role: Role
   createdAt: Date
   updatedAt: Date
 }
 
-export enum UserRole {
-  USER = 'USER',
-  ADMIN = 'ADMIN'
+export enum Role {
+  User = 'USER',
+  Admin = 'ADMIN'
 }
 
 export interface CreateUserDto {
