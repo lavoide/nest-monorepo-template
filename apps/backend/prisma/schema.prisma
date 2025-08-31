@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  name         String?
+  role         Role          @default(USER)
+  gender       Gender        @default(ANY)
+  password     String
+  refreshToken String?
+  Activity     Activity[]
+  avatar       File?         @relation(fields: [avatarId], references: [id])
+  avatarId     String?       @unique
+  publicFile   PublicFile?   @relation(fields: [publicFileId], references: [id])
+  publicFileId String?       @unique
+  PrivateFile  PrivateFile[]
+}
+
+model Activity {
+  id             String       @id @default(uuid())
+  type           ActivityType @relation(fields: [typeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  typeId         String
+  weekdays       Json?
+  date           DateTime?
+  isAnyDate      Boolean?
+  timeFrom       String
+  timeTo         String
+  filterGender   Gender       @default(ANY)
+  filterAgeFrom  Int?
+  filterAgeTo    Int?
+  filterLocation Int?
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @default(now()) @updatedAt @map("updated_at")
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId       String
+}
+
+model ActivityType {
+  id         String     @id @default(uuid())
+  name       String
+  activities Activity[]
+}
+
+model File {
+  id        String   @id @default(uuid())
+  filename  String
+  mimetype  String
+  size      Int
+  data      Bytes
+  createdAt DateTime @default(now())
+  user      User?
+}
+
+model PublicFile {
+  id        String   @id @default(uuid())
+  url       String
+  key       String
+  createdAt DateTime @default(now())
+  user      User?
+}
+
+model PrivateFile {
+  id        String   @id @default(uuid())
+  key       String
+  createdAt DateTime @default(now())
+  owner     User?    @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ownerId   String
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  ANY
+}
