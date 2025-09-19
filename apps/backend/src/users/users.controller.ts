@@ -24,33 +24,42 @@ import { Role } from '@monorepo/shared';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import RequestWithUser from 'src/auth/requestWithUser.interface';
+import { BaseController } from '../common/base.controller';
 
 @Controller('users')
 @ApiTags('Users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UsersController extends BaseController {
+  constructor(private readonly usersService: UsersService) {
+    super();
+  }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    const user = await this.usersService.create(createUserDto);
+    return this.respondCreated(user);
   }
 
   @Get()
   @UseGuards(RoleGuard([Role.Admin]))
   @UseGuards(JwtAuthGuard)
-  findAll(): Promise<User[]> {
-    return this.usersService.findAll({});
+  async findAll() {
+    const users = await this.usersService.findAll({});
+    return this.respondSuccess(users);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<User> {
-    return this.usersService.findOne({ id });
+  async findOne(@Param('id') id: string) {
+    const user = await this.usersService.findOne({ id });
+    if (!user) {
+      this.respondNotFound(`User with ID ${id} not found`);
+    }
+    return this.respondSuccess(user);
   }
 
   @Patch('/add-file-private')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
-  addFilePrivate(
+  async addFilePrivate(
     @Request() request: RequestWithUser,
     @UploadedFile(
       new ParseFilePipe({
@@ -61,24 +70,26 @@ export class UsersController {
       }),
     )
     file: Express.Multer.File,
-  ): Promise<void> {
-    return this.usersService.addFilePrivate(request.user.id, file);
+  ) {
+    await this.usersService.addFilePrivate(request.user.id, file);
+    return this.respondOk('File uploaded successfully');
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<User> {
-    return this.usersService.update({
+  ) {
+    const user = await this.usersService.update({
       where: { id },
       data: updateUserDto,
     });
+    return this.respondSuccess(user, 'User updated successfully');
   }
 
   @Patch('/add-avatar-locally/:id')
   @UseInterceptors(FileInterceptor('file'))
-  addAvatar(
+  async addAvatar(
     @Param('id') id: string,
     @UploadedFile(
       new ParseFilePipe({
@@ -89,16 +100,17 @@ export class UsersController {
       }),
     )
     file: Express.Multer.File,
-  ): Promise<User> {
-    return this.usersService.addAvatar({
+  ) {
+    const user = await this.usersService.addAvatar({
       where: { id },
       data: file,
     });
+    return this.respondSuccess(user, 'Avatar updated successfully');
   }
 
   @Patch('/add-avatar-public/:id')
   @UseInterceptors(FileInterceptor('file'))
-  addAvatarPublic(
+  async addAvatarPublic(
     @Param('id') id: string,
     @UploadedFile(
       new ParseFilePipe({
@@ -109,20 +121,23 @@ export class UsersController {
       }),
     )
     file: Express.Multer.File,
-  ): Promise<User> {
-    return this.usersService.addAvatarPublic({
+  ) {
+    const user = await this.usersService.addAvatarPublic({
       where: { id },
       data: file,
     });
+    return this.respondSuccess(user, 'Public avatar updated successfully');
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.usersService.remove({ id });
+  async remove(@Param('id') id: string) {
+    await this.usersService.remove({ id });
+    return this.respondOk('User deleted successfully');
   }
 
   @Post('/remove-avatar-public/:id')
-  removePublicAvatar(@Param('id') id: string): Promise<User> {
-    return this.usersService.removeAvatarPublic({ id });
+  async removePublicAvatar(@Param('id') id: string) {
+    const user = await this.usersService.removeAvatarPublic({ id });
+    return this.respondSuccess(user, 'Avatar removed successfully');
   }
 }

@@ -19,17 +19,20 @@ import RequestWithUser from './requestWithUser.interface';
 import { Response } from 'express';
 import JwtRefreshGuard from './jwt/jwtRefresh.guard';
 import { ForgotPasswordDto, ResetPasswordDto } from './dto/password.dto';
+import { BaseController } from '../common/base.controller';
 
 @Controller('auth')
 @ApiBearerAuth('JWT-auth')
 @ApiTags('Authorization')
-export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+export class AuthController extends BaseController {
+  constructor(private readonly authService: AuthService) {
+    super();
+  }
 
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async signIn(@Body() signInDto: AuthDto, @Res() response: Response) {
+  async signIn(@Body() signInDto: AuthDto) {
     const tokens = await this.authService.signIn(
       signInDto.email,
       signInDto.password,
@@ -38,55 +41,56 @@ export class AuthController {
       tokens.refresh_token,
       signInDto.email,
     );
-    return response.send(tokens);
+    return this.respondSuccess(tokens, 'Login successful');
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('social-login')
-  async signInSocial(
-    @Body() signInDto: SocialAuthDto,
-    @Res() response: Response,
-  ) {
+  async signInSocial(@Body() signInDto: SocialAuthDto) {
     const tokens = await this.authService.signInSocial(signInDto.token);
-    return response.send(tokens);
+    return this.respondSuccess(tokens, 'Social login successful');
   }
 
   @Post('register')
-  register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
+  async register(@Body() registerDto: RegisterDto) {
+    const user = await this.authService.register(registerDto);
+    return this.respondCreated(user);
   }
 
   @Post('social-register')
-  registerSocial(@Body() registerDto: SocialRegisterDto) {
-    return this.authService.register(registerDto);
+  async registerSocial(@Body() registerDto: SocialRegisterDto) {
+    const user = await this.authService.register(registerDto);
+    return this.respondCreated(user);
   }
 
   @Post('forgot-password')
-  forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
-    return this.authService.forgotPassword(forgotPasswordDto.email);
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    await this.authService.forgotPassword(forgotPasswordDto.email);
+    return this.respondOk('Password reset email sent');
   }
 
   @Post('reset-password')
-  resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
-    return this.authService.resetPassword(
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    await this.authService.resetPassword(
       resetPasswordDto.token,
       resetPasswordDto.password,
     );
+    return this.respondOk('Password reset successful');
   }
 
   @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req: RequestWithUser) {
-    return req.user;
+    return this.respondSuccess(req.user);
   }
 
   @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtAuthGuard)
   @Post('logout')
-  async logOut(@Request() request: RequestWithUser, @Res() response: Response) {
+  async logOut(@Request() request: RequestWithUser) {
     await this.authService.removeRefreshToken(request.user.email);
-    return response.sendStatus(200);
+    return this.respondOk('Logout successful');
   }
 
   @UseGuards(JwtRefreshGuard)
@@ -96,6 +100,6 @@ export class AuthController {
     @Body('refreshToken') refreshToken: string,
   ) {
     const accessToken = await this.authService.refreshLogin(refreshToken);
-    return accessToken;
+    return this.respondSuccess(accessToken, 'Token refreshed');
   }
 }

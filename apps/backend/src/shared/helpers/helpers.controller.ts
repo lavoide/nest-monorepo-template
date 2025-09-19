@@ -5,19 +5,22 @@ import { EntityQueryDto } from './dto/entity-query.dto';
 import { ApiTags } from '@nestjs/swagger';
 import RoleGuard from 'src/auth/role/role.guard';
 import { Role } from '@monorepo/shared';
+import { BaseController } from '../../common/base.controller';
 
 @Controller('helpers')
 @ApiTags('Helpers')
-export class HelpersController {
-  constructor(private readonly helpersService: HelpersService) {}
+export class HelpersController extends BaseController {
+  constructor(private readonly helpersService: HelpersService) {
+    super();
+  }
 
   @Get('/paginated/')
   @UseGuards(RoleGuard([Role.Admin]))
   @UseGuards(JwtAuthGuard)
-  getPaginated(
+  async getPaginated(
     @Query() query: EntityQueryDto,
-  ): Promise<{ data: any[]; pagination: any }> {
-    return this.helpersService.getEntitiesPaginated(
+  ) {
+    const result = await this.helpersService.getEntitiesPaginated(
       query?.entity,
       query?.where ? JSON.parse(query?.where) : {},
       Number(query?.page),
@@ -26,12 +29,14 @@ export class HelpersController {
       query?.filterBy,
       query?.filterContains,
     );
+    return this.respondSuccess(result);
   }
 
   @Get('/entities/')
   @UseGuards(RoleGuard([Role.Admin]))
   @UseGuards(JwtAuthGuard)
-  getEntities(): Promise<Array<string>> {
-    return this.helpersService.getAvailableEntities();
+  async getEntities() {
+    const entities = await this.helpersService.getAvailableEntities();
+    return this.respondSuccess(entities);
   }
 }

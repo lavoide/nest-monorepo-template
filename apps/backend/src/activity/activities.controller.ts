@@ -20,48 +20,58 @@ import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
 import { HelpersService } from 'src/shared/helpers/helpers.service';
 import { EntityQueryDto } from 'src/shared/helpers/dto/entity-query.dto';
 import { Role } from '@monorepo/shared';
+import { BaseController } from '../common/base.controller';
 
 @Controller('activities')
 @ApiTags('Activities')
-export class ActivitiesController {
+export class ActivitiesController extends BaseController {
   constructor(
     private readonly activitiesService: ActivitiesService,
     private helpersService: HelpersService,
-  ) {}
+  ) {
+    super();
+  }
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(
+  async create(
     @Request() request: RequestWithUser,
     @Body() createActivityDto: CreateActivityDto,
   ) {
     const data = createActivityDto;
     data.userId = request.user?.id;
-    return this.activitiesService.create(data);
+    const activity = await this.activitiesService.create(data);
+    return this.respondCreated(activity);
   }
 
   @Get()
-  findAll(): Promise<Activity[]> {
-    return this.activitiesService.findAll();
+  async findAll() {
+    const activities = await this.activitiesService.findAll();
+    return this.respondSuccess(activities);
   }
 
   @Get('/types')
-  findAllTypes(): Promise<{ name: string }[]> {
-    return this.activitiesService.findAllTypes();
+  async findAllTypes() {
+    const types = await this.activitiesService.findAllTypes();
+    return this.respondSuccess(types);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Activity> {
-    return this.activitiesService.findOne({ id });
+  async findOne(@Param('id') id: string) {
+    const activity = await this.activitiesService.findOne({ id });
+    if (!activity) {
+      this.respondNotFound(`Activity with ID ${id} not found`);
+    }
+    return this.respondSuccess(activity);
   }
 
   @Get('/by-user-id/:userId')
   // @UseGuards(JwtAuthGuard)
-  findByUserId(
+  async findByUserId(
     @Param('userId') userId: string,
     @Query() query: EntityQueryDto,
-  ): Promise<{ data: Activity[]; pagination: any }> {
-    return this.helpersService.getEntitiesPaginated(
+  ) {
+    const result = await this.helpersService.getEntitiesPaginated(
       'activity',
       { userId },
       Number(query?.page),
@@ -70,27 +80,30 @@ export class ActivitiesController {
       query?.filterBy,
       query?.filterContains,
     );
+    return this.respondSuccess(result);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateActivityDto: UpdateActivityDto,
     @Request() request: RequestWithUser,
-  ): Promise<Activity> {
-    return this.activitiesService.update(request.user, id, updateActivityDto);
+  ) {
+    const activity = await this.activitiesService.update(request.user, id, updateActivityDto);
+    return this.respondSuccess(activity, 'Activity updated successfully');
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  remove(
+  async remove(
     @Request() request: RequestWithUser,
     @Param('id') id: string,
-  ): Promise<void> {
-    return this.activitiesService.remove(
+  ) {
+    await this.activitiesService.remove(
       request.user.role as Role,
       id,
       request.user.id,
     );
+    return this.respondOk('Activity deleted successfully');
   }
 }

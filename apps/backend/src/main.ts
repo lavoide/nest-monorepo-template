@@ -1,8 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { DOCUMENT_BUILDER_CONFIG_JWT } from './auth/auth.constants';
+import { validationExceptionFactory } from './common/exceptions/validation-exception.factory';
+import { ReportableExceptionFilter } from './exception-filters/reportable-exception.filter';
+import { PrismaExceptionsFilter } from './exception-filters/prisma-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +18,22 @@ async function bootstrap() {
     credentials: true,
   });
   app.use(cookieParser());
+
+  // Global validation pipe
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+      exceptionFactory: validationExceptionFactory,
+    }),
+  );
+
+  // Global exception filters
+  app.useGlobalFilters(
+    new PrismaExceptionsFilter(),
+    new ReportableExceptionFilter(),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('App')

@@ -21,11 +21,14 @@ import { join } from 'path';
 import { JwtAuthGuard } from 'src/auth/jwt/jwtAuth.guard';
 import RequestWithUser from 'src/auth/requestWithUser.interface';
 import { ApiTags } from '@nestjs/swagger';
+import { BaseController } from '../common/base.controller';
 
 @Controller('files')
 @ApiTags('Files')
-export class FilesController {
-  constructor(private readonly filesService: FilesService) {}
+export class FilesController extends BaseController {
+  constructor(private readonly filesService: FilesService) {
+    super();
+  }
 
   @Get('static-file')
   @Header('Content-Type', 'application/json')
@@ -37,7 +40,7 @@ export class FilesController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(
+  async uploadFile(
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -48,12 +51,13 @@ export class FilesController {
     )
     file: Express.Multer.File,
   ) {
-    return this.filesService.create(file);
+    const result = await this.filesService.create(file);
+    return this.respondCreated(result);
   }
 
   @Post('upload-aws')
   @UseInterceptors(FileInterceptor('file'))
-  uploadPublicFile(
+  async uploadPublicFile(
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -64,13 +68,14 @@ export class FilesController {
     )
     file: Express.Multer.File,
   ) {
-    return this.filesService.createPublic(file);
+    const result = await this.filesService.createPublic(file);
+    return this.respondCreated(result);
   }
 
   @Post('upload-aws-private')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
-  uploadPrivateFile(
+  async uploadPrivateFile(
     @Request() request: RequestWithUser,
     @UploadedFile(
       new ParseFilePipe({
@@ -82,26 +87,34 @@ export class FilesController {
     )
     file: Express.Multer.File,
   ) {
-    return this.filesService.createPrivate(file, request.user.id);
+    const result = await this.filesService.createPrivate(file, request.user.id);
+    return this.respondCreated(result);
   }
 
   @Get('get-all-files')
-  findAll() {
-    return this.filesService.findAll();
+  async findAll() {
+    const files = await this.filesService.findAll();
+    return this.respondSuccess(files);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.filesService.findOne({ id });
+  async findOne(@Param('id') id: string) {
+    const file = await this.filesService.findOne({ id });
+    if (!file) {
+      this.respondNotFound(`File with ID ${id} not found`);
+    }
+    return this.respondSuccess(file);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.filesService.remove({ id });
+  async remove(@Param('id') id: string) {
+    await this.filesService.remove({ id });
+    return this.respondOk('File deleted successfully');
   }
 
   @Delete('/public/:id')
-  removePublic(@Param('id') id: string) {
-    return this.filesService.removePublic({ id });
+  async removePublic(@Param('id') id: string) {
+    await this.filesService.removePublic({ id });
+    return this.respondOk('Public file deleted successfully');
   }
 }
