@@ -93,13 +93,11 @@ export class AuthController extends BaseController {
     return this.respondOk('Logout successful');
   }
 
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtRefreshGuard)
   @Post('refresh')
-  async refresh(
-    @Request() request: RequestWithUser,
-    @Body('refreshToken') refreshToken: string,
-  ) {
-    const accessToken = await this.authService.refreshLogin(refreshToken);
+  async refresh(@Request() request: RequestWithUser) {
+    const accessToken = await this.authService.refreshLogin(request.user);
     return this.respondSuccess(accessToken, 'Token refreshed');
   }
 }

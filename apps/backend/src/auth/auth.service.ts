@@ -71,16 +71,7 @@ export class AuthService {
     };
   }
 
-  public async refreshLogin(refreshToken: string) {
-    const payload = this.jwtService.verify(refreshToken, {
-      secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-    });
-
-    const user = await this.usersService.findOne({ email: payload.email });
-    if (!user) {
-      throw new HttpException(AUTH_ERRORS.WRONG_CREDS, HttpStatus.BAD_REQUEST);
-    }
-
+  public async refreshLogin(user: any) {
     const newPayload = {
       id: user.id,
       name: user.name,

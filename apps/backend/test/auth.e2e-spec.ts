@@ -293,7 +293,7 @@ describe('AuthController (e2e)', () => {
       }
     });
 
-    it.skip('should refresh token with valid refresh token', async () => {
+    it('should refresh token with valid refresh token', async () => {
       if (!refreshToken) {
         console.warn('Skipping test - no refresh token available');
         return;
