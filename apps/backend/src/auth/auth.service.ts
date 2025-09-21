@@ -6,9 +6,8 @@ import { OAuth2Client } from 'google-auth-library';
 import { UsersService } from '../users/users.service';
 import { RegisterDto, SocialRegisterDto } from './dto/register.dto';
 import { AUTH_ERRORS, AUTH_INFO, JWT_PUBLIC } from './auth.constants';
-import { JWT_CONSTANTS } from './jwt/jwt.constants';
-import { PrismaService } from 'src/prisma.service';
-import { MailService } from 'src/shared/mail/mail.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -32,8 +31,8 @@ export class AuthService {
     const payload = { id: user.id, name: user.name, email, role: user.role };
     const access_token = await this.jwtService.signAsync(payload);
     const refresh_token = await this.jwtService.signAsync(payload, {
-      secret: JWT_CONSTANTS.REFRESH_SECRET,
-      expiresIn: JWT_PUBLIC.REFRESH_EXPIRE_TIME,
+      secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+      expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRE_TIME', '7d'),
     });
     await this.setCurrentRefreshToken(refresh_token, email);
     return {
@@ -55,8 +54,8 @@ export class AuthService {
     const payload = { id: user.id, name: user.name, email, role: user.role };
     const access_token = await this.jwtService.signAsync(payload);
     const refresh_token = await this.jwtService.signAsync(payload, {
-      secret: JWT_CONSTANTS.REFRESH_SECRET,
-      expiresIn: JWT_PUBLIC.REFRESH_EXPIRE_TIME,
+      secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+      expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRE_TIME', '7d'),
     });
     await this.setCurrentRefreshToken(refresh_token, email);
     return {
@@ -68,7 +67,7 @@ export class AuthService {
 
   public async refreshLogin(refreshToken: string) {
     const payload = this.jwtService.verify(refreshToken, {
-      secret: JWT_CONSTANTS.REFRESH_SECRET,
+      secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
     });
 
     const user = await this.usersService.findOne({ email: payload.email });
@@ -83,8 +82,8 @@ export class AuthService {
       role: user.role,
     };
     const access_token = await this.jwtService.signAsync(newPayload, {
-      secret: JWT_CONSTANTS.SECRET,
-      expiresIn: JWT_PUBLIC.EXPIRE_TIME,
+      secret: this.configService.get<string>('JWT_SECRET'),
+      expiresIn: this.configService.get<string>('JWT_EXPIRE_TIME', '15m'),
     });
 
     return {
@@ -178,8 +177,8 @@ export class AuthService {
     const token = await this.jwtService.signAsync(
       { email: user.email, sub: user.id },
       {
-        secret: JWT_CONSTANTS.SECRET,
-        expiresIn: JWT_PUBLIC.EXPIRE_TIME,
+        secret: this.configService.get<string>('JWT_SECRET'),
+        expiresIn: this.configService.get<string>('JWT_EXPIRE_TIME', '15m'),
       },
     );
     const resetLink = `https://yourapp.com/reset-password?token=${token}`;
@@ -192,7 +191,7 @@ export class AuthService {
     newPassword: string,
   ): Promise<{ message: string }> {
     const { email } = this.jwtService.verify(token, {
-      secret: JWT_CONSTANTS.SECRET,
+      secret: this.configService.get<string>('JWT_SECRET'),
     });
     const user = await this.usersService.findOne({ email });
     const hashedPassword = await bcrypt.hash(newPassword, 10);

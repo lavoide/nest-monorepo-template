@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { PrismaModule } from './prisma/prisma.module';
+import { MailModule } from './mail/mail.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ActivitiesModule } from './activity/activities.module';
@@ -10,7 +12,10 @@ import { HelpersModule } from './shared/helpers/helpers.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     ServeStaticModule.forRoot(
       {
         rootPath: join(__dirname, '..', '..', '..', 'frontend', 'dist'),
@@ -22,6 +27,8 @@ import { HelpersModule } from './shared/helpers/helpers.module';
         exclude: ['/api/(.*)', '/app/(.*)', '/swagger/(.*)'],
       },
     ),
+    PrismaModule,
+    MailModule,
     UsersModule,
     AuthModule,
     ActivitiesModule,
