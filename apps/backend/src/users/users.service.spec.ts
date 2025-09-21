@@ -157,15 +157,15 @@ describe('UsersService', () => {
     it('should throw HttpException when user not found', async () => {
       mockPrismaService.user.findUnique.mockResolvedValue(null);
 
-      await expect(
-        service.findOne({ id: 'non-existent-id' }),
-      ).rejects.toThrow(HttpException);
+      await expect(service.findOne({ id: 'non-existent-id' })).rejects.toThrow(
+        HttpException,
+      );
 
-      await expect(
-        service.findOne({ id: 'non-existent-id' }),
-      ).rejects.toThrow(expect.objectContaining({
-        status: HttpStatus.NOT_FOUND,
-      }));
+      await expect(service.findOne({ id: 'non-existent-id' })).rejects.toThrow(
+        expect.objectContaining({
+          status: HttpStatus.NOT_FOUND,
+        }),
+      );
     });
   });
 

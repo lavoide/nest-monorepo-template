@@ -17,8 +17,8 @@ import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import RequestWithUser from '../auth/requestWithUser.interface';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
-import { HelpersService } from 'src/shared/helpers/helpers.service';
-import { EntityQueryDto } from 'src/shared/helpers/dto/entity-query.dto';
+import { HelpersService } from '../shared/helpers/helpers.service';
+import { EntityQueryDto } from '../shared/helpers/dto/entity-query.dto';
 import { Role } from '@monorepo/shared';
 import { BaseController } from '../common/base.controller';
 
@@ -89,16 +89,17 @@ export class ActivitiesController extends BaseController {
     @Body() updateActivityDto: UpdateActivityDto,
     @Request() request: RequestWithUser,
   ) {
-    const activity = await this.activitiesService.update(request.user, id, updateActivityDto);
+    const activity = await this.activitiesService.update(
+      request.user,
+      id,
+      updateActivityDto,
+    );
     return this.respondSuccess(activity, 'Activity updated successfully');
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  async remove(
-    @Request() request: RequestWithUser,
-    @Param('id') id: string,
-  ) {
+  async remove(@Request() request: RequestWithUser, @Param('id') id: string) {
     await this.activitiesService.remove(
       request.user.role as Role,
       id,

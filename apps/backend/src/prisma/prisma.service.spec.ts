@@ -18,7 +18,9 @@ describe('PrismaService', () => {
 
   describe('onModuleInit', () => {
     it('should connect to the database', async () => {
-      const connectSpy = jest.spyOn(service, '$connect').mockResolvedValueOnce(undefined);
+      const connectSpy = jest
+        .spyOn(service, '$connect')
+        .mockResolvedValueOnce(undefined);
 
       await service.onModuleInit();
 
@@ -28,7 +30,9 @@ describe('PrismaService', () => {
 
   describe('onModuleDestroy', () => {
     it('should disconnect from the database', async () => {
-      const disconnectSpy = jest.spyOn(service, '$disconnect').mockResolvedValueOnce(undefined);
+      const disconnectSpy = jest
+        .spyOn(service, '$disconnect')
+        .mockResolvedValueOnce(undefined);
 
       await service.onModuleDestroy();
 
@@ -41,7 +45,9 @@ describe('PrismaService', () => {
       const originalEnv = process.env.NODE_ENV;
       process.env.NODE_ENV = 'production';
 
-      await expect(service.cleanDb()).rejects.toThrow('cleanDb is not allowed in production');
+      await expect(service.cleanDb()).rejects.toThrow(
+        'cleanDb is not allowed in production',
+      );
 
       process.env.NODE_ENV = originalEnv;
     });
@@ -56,7 +62,7 @@ describe('PrismaService', () => {
 
       try {
         // This will fail due to missing prisma models, but we just check the env check works
-        await service.cleanDb().catch(() => {});
+        await service.cleanDb().catch(() => undefined);
       } catch (e) {
         // Expected to fail with model access issues in test environment
       }

@@ -15,7 +15,6 @@ import {
   FileTypeValidator,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { User } from '@prisma/client';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -23,7 +22,7 @@ import RoleGuard from '../auth/role/role.guard';
 import { Role } from '@monorepo/shared';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import RequestWithUser from 'src/auth/requestWithUser.interface';
+import RequestWithUser from '../auth/requestWithUser.interface';
 import { BaseController } from '../common/base.controller';
 
 @Controller('users')
@@ -76,10 +75,7 @@ export class UsersController extends BaseController {
   }
 
   @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const user = await this.usersService.update({
       where: { id },
       data: updateUserDto,
@@ -130,6 +126,7 @@ export class UsersController extends BaseController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async remove(@Param('id') id: string) {
     await this.usersService.remove({ id });
     return this.respondOk('User deleted successfully');

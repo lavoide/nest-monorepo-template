@@ -114,13 +114,11 @@ describe('FilesService', () => {
     it('should throw HttpException when file not found', async () => {
       mockPrismaService.file.findUnique.mockResolvedValue(null);
 
-      await expect(
-        service.findOne({ id: 'non-existent-id' }),
-      ).rejects.toThrow(HttpException);
+      await expect(service.findOne({ id: 'non-existent-id' })).rejects.toThrow(
+        HttpException,
+      );
 
-      await expect(
-        service.findOne({ id: 'non-existent-id' }),
-      ).rejects.toThrow(
+      await expect(service.findOne({ id: 'non-existent-id' })).rejects.toThrow(
         expect.objectContaining({
           status: HttpStatus.NOT_FOUND,
         }),
@@ -144,8 +142,9 @@ describe('FilesService', () => {
       mockPrismaService.file.delete.mockResolvedValue(fileToDelete);
 
       // Mock fs.unlinkSync
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const fs = require('fs');
-      jest.spyOn(fs, 'unlinkSync').mockImplementation(() => {});
+      jest.spyOn(fs, 'unlinkSync').mockImplementation(() => undefined);
 
       await service.remove({ id: 'file-id-123' });
       expect(mockPrismaService.file.delete).toHaveBeenCalledWith({
@@ -156,8 +155,9 @@ describe('FilesService', () => {
     it('should throw error when file not found', async () => {
       mockPrismaService.file.findUnique.mockResolvedValue(null);
 
-      await expect(service.remove({ id: 'non-existent-id' })).rejects.toThrow(HttpException);
+      await expect(service.remove({ id: 'non-existent-id' })).rejects.toThrow(
+        HttpException,
+      );
     });
   });
-
 });

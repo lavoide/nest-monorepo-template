@@ -53,7 +53,10 @@ export class UsersService {
     data: UpdateUserDto;
   }): Promise<User> {
     const { where, data } = params;
-    await this.findOne(where);
+    // Only validate if where contains id
+    if (where.id) {
+      await this.findOne(where);
+    }
     return this.prisma.user.update({
       data,
       where,

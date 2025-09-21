@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum } from 'class-validator';
-import { OrderDirectionConstants } from 'src/shared/helpers/helpers.contsants';
+import { OrderDirectionConstants } from '../../shared/helpers/helpers.contsants';
 
 export class ActivityQueryDto {
   @ApiProperty({ required: false })

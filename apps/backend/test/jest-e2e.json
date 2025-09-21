@@ -6,15 +6,6 @@
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "moduleNameMapper": {
-    "^@/(.*)$": "<rootDir>/../src/$1",
-    "^@auth/(.*)$": "<rootDir>/../src/auth/$1",
-    "^@users/(.*)$": "<rootDir>/../src/users/$1",
-    "^@files/(.*)$": "<rootDir>/../src/files/$1",
-    "^@activity/(.*)$": "<rootDir>/../src/activity/$1",
-    "^@prisma/(.*)$": "<rootDir>/../src/prisma/$1",
-    "^@mail/(.*)$": "<rootDir>/../src/mail/$1",
-    "^@shared/(.*)$": "<rootDir>/../src/shared/$1",
-    "^@common/(.*)$": "<rootDir>/../src/common/$1"
-  }
+  "setupFilesAfterEnv": ["<rootDir>/setup-e2e.ts"],
+  "testTimeout": 30000
 }

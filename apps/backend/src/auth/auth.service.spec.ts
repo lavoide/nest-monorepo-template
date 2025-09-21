@@ -184,7 +184,7 @@ describe('AuthService', () => {
       (bcrypt.hash as jest.Mock).mockResolvedValue('hashedPassword');
       // Return a new object that can be mutated
       mockUsersService.create.mockImplementation(() =>
-        Promise.resolve({ ...mockCreatedUser })
+        Promise.resolve({ ...mockCreatedUser }),
       );
 
       const result = await service.register(registerDto);
@@ -218,7 +218,9 @@ describe('AuthService', () => {
 
       mockPrismaService.user.findUnique.mockResolvedValue(existingUser);
 
-      await expect(service.register(registerDto)).rejects.toThrow(HttpException);
+      await expect(service.register(registerDto)).rejects.toThrow(
+        HttpException,
+      );
       await expect(service.register(registerDto)).rejects.toThrow(
         expect.objectContaining({
           status: HttpStatus.BAD_REQUEST,
@@ -226,7 +228,6 @@ describe('AuthService', () => {
       );
     });
   });
-
 
   describe('refreshLogin', () => {
     it('should refresh access token with valid refresh token', async () => {
@@ -261,7 +262,9 @@ describe('AuthService', () => {
         throw new Error('Invalid token');
       });
 
-      await expect(service.refreshLogin('invalid-refresh-token')).rejects.toThrow();
+      await expect(
+        service.refreshLogin('invalid-refresh-token'),
+      ).rejects.toThrow();
     });
   });
 });

@@ -18,8 +18,8 @@ import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { createReadStream } from 'fs';
 import { join } from 'path';
-import { JwtAuthGuard } from 'src/auth/jwt/jwtAuth.guard';
-import RequestWithUser from 'src/auth/requestWithUser.interface';
+import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
+import RequestWithUser from '../auth/requestWithUser.interface';
 import { ApiTags } from '@nestjs/swagger';
 import { BaseController } from '../common/base.controller';
 

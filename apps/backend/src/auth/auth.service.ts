@@ -32,7 +32,10 @@ export class AuthService {
     const access_token = await this.jwtService.signAsync(payload);
     const refresh_token = await this.jwtService.signAsync(payload, {
       secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-      expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRE_TIME', '7d'),
+      expiresIn: this.configService.get<string>(
+        'JWT_REFRESH_EXPIRE_TIME',
+        '7d',
+      ),
     });
     await this.setCurrentRefreshToken(refresh_token, email);
     return {
@@ -55,7 +58,10 @@ export class AuthService {
     const access_token = await this.jwtService.signAsync(payload);
     const refresh_token = await this.jwtService.signAsync(payload, {
       secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-      expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRE_TIME', '7d'),
+      expiresIn: this.configService.get<string>(
+        'JWT_REFRESH_EXPIRE_TIME',
+        '7d',
+      ),
     });
     await this.setCurrentRefreshToken(refresh_token, email);
     return {

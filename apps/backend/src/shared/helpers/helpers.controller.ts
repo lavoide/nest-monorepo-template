@@ -1,9 +1,9 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { HelpersService } from './helpers.service';
-import { JwtAuthGuard } from 'src/auth/jwt/jwtAuth.guard';
+import { JwtAuthGuard } from '../../auth/jwt/jwtAuth.guard';
 import { EntityQueryDto } from './dto/entity-query.dto';
 import { ApiTags } from '@nestjs/swagger';
-import RoleGuard from 'src/auth/role/role.guard';
+import RoleGuard from '../../auth/role/role.guard';
 import { Role } from '@monorepo/shared';
 import { BaseController } from '../../common/base.controller';
 
@@ -17,9 +17,7 @@ export class HelpersController extends BaseController {
   @Get('/paginated/')
   @UseGuards(RoleGuard([Role.Admin]))
   @UseGuards(JwtAuthGuard)
-  async getPaginated(
-    @Query() query: EntityQueryDto,
-  ) {
+  async getPaginated(@Query() query: EntityQueryDto) {
     const result = await this.helpersService.getEntitiesPaginated(
       query?.entity,
       query?.where ? JSON.parse(query?.where) : {},
