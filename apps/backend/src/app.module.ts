@@ -18,7 +18,7 @@ import { HelpersModule } from './shared/helpers/helpers.module';
         exclude: ['/api/(.*)'],
       },
       {
-        rootPath: join(__dirname, '..', '..', '..', '..', 'packages', 'website', 'dist'),
+        rootPath: join(__dirname, '..', '..', '..', 'website', 'dist'),
         exclude: ['/api/(.*)', '/app/(.*)', '/swagger/(.*)'],
       },
     ),
