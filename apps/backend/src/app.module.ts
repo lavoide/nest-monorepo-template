@@ -11,10 +11,17 @@ import { HelpersModule } from './shared/helpers/helpers.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', '..', 'frontend', 'dist'),
-      exclude: ['/api*'],
-    }),
+    ServeStaticModule.forRoot(
+      {
+        rootPath: join(__dirname, '..', '..', '..', 'frontend', 'dist'),
+        serveRoot: '/app',
+        exclude: ['/api/(.*)'],
+      },
+      {
+        rootPath: join(__dirname, '..', '..', '..', '..', 'packages', 'website', 'dist'),
+        exclude: ['/api/(.*)', '/app/(.*)', '/swagger/(.*)'],
+      },
+    ),
     UsersModule,
     AuthModule,
     ActivitiesModule,

@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import './theme/variables.css';
 
 const App: React.FC = () => (
-  <Router>
+  <Router basename="/app">
     <Routes>
       <Route path="/home" element={<Home />} />
       <Route path="/" element={<Navigate to="/home" replace />} />
