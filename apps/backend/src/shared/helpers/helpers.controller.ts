@@ -15,7 +15,7 @@ export class HelpersController extends BaseController {
   }
 
   @Get('/paginated/')
-  @UseGuards(RoleGuard([Role.Admin]))
+  @UseGuards(RoleGuard([Role.ADMIN]))
   @UseGuards(JwtAuthGuard)
   async getPaginated(@Query() query: EntityQueryDto) {
     const result = await this.helpersService.getEntitiesPaginated(
@@ -31,7 +31,7 @@ export class HelpersController extends BaseController {
   }
 
   @Get('/entities/')
-  @UseGuards(RoleGuard([Role.Admin]))
+  @UseGuards(RoleGuard([Role.ADMIN]))
   @UseGuards(JwtAuthGuard)
   async getEntities() {
     const entities = await this.helpersService.getAvailableEntities();

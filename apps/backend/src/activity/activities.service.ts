@@ -48,7 +48,7 @@ export class ActivitiesService {
     data: UpdateActivityDto,
   ): Promise<Activity> {
     const article = await this.findOne({ id });
-    if (user.role === Role.Admin || article.userId === user.id) {
+    if (user.role === Role.ADMIN || article.userId === user.id) {
       return this.prisma.activity.update({
         where: { id },
         data,
@@ -59,7 +59,7 @@ export class ActivitiesService {
 
   async remove(role: Role, id: string, userId: string): Promise<void> {
     const article = await this.findOne({ id });
-    if (role === Role.Admin || article.userId === userId) {
+    if (role === Role.ADMIN || article.userId === userId) {
       await this.prisma.activity.delete({
         where: { id },
       });

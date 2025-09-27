@@ -1,13 +1,11 @@
 import { api } from '@/lib/api'
-import { AuthDto, Role } from '@monorepo/shared'
+import { AuthDto, RegisterDto as SharedRegisterDto, Role } from '@monorepo/shared'
 
 export type LoginRequest = AuthDto;
 
-export interface SignupRequest {
+export interface SignupRequest extends Omit<SharedRegisterDto, 'name'> {
   firstName: string
   lastName: string
-  email: string
-  password: string
 }
 
 export interface User {

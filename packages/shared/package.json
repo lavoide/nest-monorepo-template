@@ -6,10 +6,15 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "generate:types": "tsx scripts/generate-types.ts",
+    "watch:types": "tsx scripts/generate-types.ts --watch",
+    "prebuild": "npm run generate:types"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",
+    "ts-morph": "^27.0.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.5.3"
   }
 }

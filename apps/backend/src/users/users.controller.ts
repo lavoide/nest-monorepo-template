@@ -39,7 +39,7 @@ export class UsersController extends BaseController {
   }
 
   @Get()
-  @UseGuards(RoleGuard([Role.Admin]))
+  @UseGuards(RoleGuard([Role.ADMIN]))
   @UseGuards(JwtAuthGuard)
   async findAll() {
     const users = await this.usersService.findAll({});

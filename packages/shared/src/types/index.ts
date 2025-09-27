@@ -1,3 +1,2 @@
-export * from './user'
-export * from './activity'
-export * from './auth'
+export * from './enums'
+export * from './generated'
