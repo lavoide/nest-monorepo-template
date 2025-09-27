@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { authService, LoginRequest, SignupRequest } from '@/services/auth.service'
+import { authService, LoginRequest, SignupRequest, User } from '@/services/auth.service'
 import { useAuthStore } from '@/store/useAuthStore'
 import { AxiosError } from 'axios'
 
@@ -18,7 +18,7 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (data: LoginRequest) => authService.login(data),
     onSuccess: (response) => {
-      storeLogin(response.user, response.token)
+      storeLogin(response.user, response.access_token)
       queryClient.invalidateQueries({ queryKey: ['user'] })
       navigate('/home')
     },
@@ -36,7 +36,7 @@ export const useSignup = () => {
   return useMutation({
     mutationFn: (data: SignupRequest) => authService.signup(data),
     onSuccess: (response) => {
-      storeLogin(response.user, response.token)
+      storeLogin(response.user, response.access_token)
       queryClient.invalidateQueries({ queryKey: ['user'] })
       navigate('/home')
     },

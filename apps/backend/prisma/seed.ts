@@ -1,7 +1,5 @@
 import { PrismaClient, Gender, Role } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
-import { CreateActivityDto } from 'src/activity/dto/create-activity.dto';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 const prisma = new PrismaClient();
 
@@ -27,7 +25,7 @@ async function seedDatabase() {
   const createdTypes = await prisma.activityType.findMany();
 
   // Seed Users
-  const users: CreateUserDto[] = [
+  const users = [
     {
       email: 'john@example.com',
       name: 'John Doe',
@@ -52,7 +50,7 @@ async function seedDatabase() {
   const createdUsers = await prisma.user.findMany();
 
   // Seed Activities
-  const activities: CreateActivityDto[] = [
+  const activities = [
     {
       typeId: createdTypes[0].id,
       date: new Date('2024-01-15'),

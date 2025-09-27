@@ -1,11 +1,12 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { Role } from '@monorepo/shared'
 
 interface User {
   id: string
   email: string
-  username: string
-  role: string
+  name?: string
+  role: Role | string
 }
 
 interface AuthState {

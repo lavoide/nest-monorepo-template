@@ -1,9 +1,7 @@
 import { api } from '@/lib/api'
+import { AuthDto, Role } from '@monorepo/shared'
 
-export interface LoginRequest {
-  email: string
-  password: string
-}
+export type LoginRequest = AuthDto;
 
 export interface SignupRequest {
   firstName: string
@@ -12,33 +10,36 @@ export interface SignupRequest {
   password: string
 }
 
-export interface AuthResponse {
-  user: {
-    id: string
-    email: string
-    username: string
-    role: string
-  }
-  token: string
-  refreshToken?: string
-}
-
 export interface User {
   id: string
   email: string
-  username: string
-  role: string
+  name?: string
+  role: Role | string
+  gender?: string
+}
+
+export interface AuthResponse {
+  access_token: string
+  refresh_token?: string
+  user: User
+}
+
+interface ApiResponse<T> {
+  success: boolean
+  message: string
+  data: T
+  timestamp: string
 }
 
 class AuthService {
   async login(data: LoginRequest): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>('/auth/login', data)
-    return response.data
+    const response = await api.post<ApiResponse<AuthResponse>>('/auth/login', data)
+    return response.data.data
   }
 
   async signup(data: SignupRequest): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>('/auth/register', data)
-    return response.data
+    const response = await api.post<ApiResponse<AuthResponse>>('/auth/register', data)
+    return response.data.data
   }
 
   async logout(): Promise<void> {
@@ -46,8 +47,8 @@ class AuthService {
   }
 
   async getCurrentUser(): Promise<User> {
-    const response = await api.get<User>('/auth/me')
-    return response.data
+    const response = await api.get<ApiResponse<User>>('/auth/profile')
+    return response.data.data
   }
 
   async refreshToken(refreshToken: string): Promise<AuthResponse> {
