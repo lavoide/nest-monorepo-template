@@ -230,41 +230,40 @@ describe('AuthService', () => {
   });
 
   describe('refreshLogin', () => {
-    it('should refresh access token with valid refresh token', async () => {
-      const mockPayload = {
+    it('should refresh access token with valid user payload', async () => {
+      const mockUserPayload = {
         id: 'user-id',
         email: 'test@example.com',
         name: 'Test User',
         role: 'USER',
       };
 
-      const mockUser = {
-        ...mockPayload,
-        password: 'hashedPassword',
-        refreshToken: 'hashedRefreshToken',
-        avatar: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      mockJwtService.verify.mockReturnValue(mockPayload);
-      mockUsersService.findOne.mockResolvedValue(mockUser);
       mockJwtService.signAsync.mockResolvedValue('new-access-token');
 
-      const result = await service.refreshLogin('valid-refresh-token');
+      const result = await service.refreshLogin(mockUserPayload);
 
       expect(result).toHaveProperty('access_token', 'new-access-token');
-      expect(result.user).toEqual(mockPayload);
+      expect(result.user).toEqual(mockUserPayload);
+      expect(mockJwtService.signAsync).toHaveBeenCalledWith(mockUserPayload, {
+        secret: 'test-secret',
+        expiresIn: '15m',
+      });
     });
 
-    it('should throw error for invalid refresh token', async () => {
-      mockJwtService.verify.mockImplementation(() => {
-        throw new Error('Invalid token');
-      });
+    it('should handle user payload with undefined fields', async () => {
+      const incompleteUserPayload = {
+        id: undefined,
+        email: undefined,
+        name: undefined,
+        role: undefined,
+      };
 
-      await expect(
-        service.refreshLogin('invalid-refresh-token'),
-      ).rejects.toThrow();
+      mockJwtService.signAsync.mockResolvedValue('new-access-token');
+
+      const result = await service.refreshLogin(incompleteUserPayload);
+
+      expect(result).toHaveProperty('access_token', 'new-access-token');
+      expect(result.user).toEqual(incompleteUserPayload);
     });
   });
 });
