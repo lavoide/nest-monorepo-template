@@ -107,7 +107,7 @@ function generateTypesFromModule(moduleName: string, dtoFiles: SourceFile[]): st
 
 const modules = [
   { name: 'auth', path: 'auth/dto' },
-  { name: 'activity', path: 'activity/dto' },
+  { name: 'entity', path: 'entity/dto' },
   { name: 'user', path: 'users/dto' },
 ];
 

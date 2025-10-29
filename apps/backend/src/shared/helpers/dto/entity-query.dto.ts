@@ -1,20 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum } from 'class-validator';
+import { IsEnum, IsOptional } from 'class-validator';
 import { OrderDirectionConstants } from '../helpers.contsants';
 
 export class EntityQueryDto {
   @ApiProperty({ required: false })
-  entity: string;
+  @IsOptional()
+  entity?: string;
 
   @ApiProperty({ required: false })
+  @IsOptional()
   where?: string;
 
   @ApiProperty({ required: false })
+  @IsOptional()
   page?: string;
 
   @ApiProperty({ required: false })
+  @IsOptional()
   sortBy?: string;
 
+  @IsOptional()
   @IsEnum(Object.values(OrderDirectionConstants))
   @ApiProperty({
     type: String,
@@ -24,8 +29,10 @@ export class EntityQueryDto {
   sortOrder?: OrderDirectionConstants;
 
   @ApiProperty({ required: false })
+  @IsOptional()
   filterBy?: string;
 
   @ApiProperty({ required: false })
+  @IsOptional()
   filterContains?: string;
 }

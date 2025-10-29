@@ -4,26 +4,11 @@ import * as bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function clearDatabase() {
-  await prisma.activity.deleteMany({});
-  await prisma.activityType.deleteMany({});
+  await prisma.entity.deleteMany({});
   await prisma.user.deleteMany({});
 }
 
 async function seedDatabase() {
-  // Seed ActivityTypes
-  const activityTypes = [
-    { name: 'Running' },
-    { name: 'Cycling' },
-    { name: 'Swimming' },
-    { name: 'Yoga' },
-    {
-      name: 'Weight Training',
-    },
-  ];
-
-  await prisma.activityType.createMany({ data: activityTypes });
-  const createdTypes = await prisma.activityType.findMany();
-
   // Seed Users
   const users = [
     {
@@ -49,46 +34,34 @@ async function seedDatabase() {
   await prisma.user.createMany({ data: users });
   const createdUsers = await prisma.user.findMany();
 
-  // Seed Activities
-  const activities = [
+  // Seed Entities
+  const entities = [
     {
-      typeId: createdTypes[0].id,
-      date: new Date('2024-01-15'),
-      timeFrom: '07:00',
-      timeTo: '08:00',
-      filterGender: Gender.ANY,
+      name: 'Sample Entity 1',
+      description: 'This is a sample entity for demonstration',
+      status: 'active',
       userId: createdUsers[0].id,
     },
     {
-      typeId: createdTypes[2].id,
-      isAnyDate: true,
-      timeFrom: '07:00',
-      timeTo: '08:00',
-      filterGender: Gender.ANY,
+      name: 'Sample Entity 2',
+      description: 'Another example entity',
+      status: 'active',
       userId: createdUsers[0].id,
     },
     {
-      typeId: createdTypes[3].id,
-      date: new Date('2024-01-15'),
-      timeFrom: '18:00',
-      timeTo: '19:00',
-      filterGender: Gender.ANY,
-      filterAgeFrom: 18,
-      filterAgeTo: 65,
-      filterLocation: 3,
+      name: 'Sample Entity 3',
+      description: 'Third entity example',
+      status: 'inactive',
       userId: createdUsers[1].id,
     },
     {
-      typeId: createdTypes[1].id,
-      weekdays: ['MONDAY', 'WEDNESDAY', 'FRIDAY'],
-      timeFrom: '16:00',
-      timeTo: '17:30',
-      filterGender: Gender.ANY,
+      name: 'Sample Entity 4',
+      status: 'active',
       userId: createdUsers[0].id,
     },
   ];
 
-  await prisma.activity.createMany({ data: activities });
+  await prisma.entity.createMany({ data: entities });
   console.log('Database seeded successfully');
 }
 

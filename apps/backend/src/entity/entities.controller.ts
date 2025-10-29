@@ -11,10 +11,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Activity } from '@prisma/client';
-import { ActivitiesService } from './activities.service';
-import { CreateActivityDto } from './dto/create-activity.dto';
-import { UpdateActivityDto } from './dto/update-activity.dto';
+import { Entity } from '@prisma/client';
+import { EntitiesService } from './entities.service';
+import { CreateEntityDto } from './dto/create-entity.dto';
+import { UpdateEntityDto } from './dto/update-entity.dto';
 import RequestWithUser from '../auth/requestWithUser.interface';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
 import { HelpersService } from '../shared/helpers/helpers.service';
@@ -22,11 +22,11 @@ import { EntityQueryDto } from '../shared/helpers/dto/entity-query.dto';
 import { Role } from '@monorepo/shared';
 import { BaseController } from '../common/base.controller';
 
-@Controller('activities')
-@ApiTags('Activities')
-export class ActivitiesController extends BaseController {
+@Controller('entities')
+@ApiTags('Entities')
+export class EntitiesController extends BaseController {
   constructor(
-    private readonly activitiesService: ActivitiesService,
+    private readonly entitiesService: EntitiesService,
     private helpersService: HelpersService,
   ) {
     super();
@@ -36,33 +36,18 @@ export class ActivitiesController extends BaseController {
   @UseGuards(JwtAuthGuard)
   async create(
     @Request() request: RequestWithUser,
-    @Body() createActivityDto: CreateActivityDto,
+    @Body() createEntityDto: CreateEntityDto,
   ) {
-    const data = createActivityDto;
+    const data = createEntityDto;
     data.userId = request.user?.id;
-    const activity = await this.activitiesService.create(data);
-    return this.respondCreated(activity);
+    const entity = await this.entitiesService.create(data);
+    return this.respondCreated(entity);
   }
 
   @Get()
   async findAll() {
-    const activities = await this.activitiesService.findAll();
-    return this.respondSuccess(activities);
-  }
-
-  @Get('/types')
-  async findAllTypes() {
-    const types = await this.activitiesService.findAllTypes();
-    return this.respondSuccess(types);
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const activity = await this.activitiesService.findOne({ id });
-    if (!activity) {
-      this.respondNotFound(`Activity with ID ${id} not found`);
-    }
-    return this.respondSuccess(activity);
+    const entities = await this.entitiesService.findAll();
+    return this.respondSuccess(entities);
   }
 
   @Get('/by-user-id/:userId')
@@ -72,7 +57,7 @@ export class ActivitiesController extends BaseController {
     @Query() query: EntityQueryDto,
   ) {
     const result = await this.helpersService.getEntitiesPaginated(
-      'activity',
+      'entity',
       { userId },
       Number(query?.page),
       query?.sortBy,
@@ -83,28 +68,38 @@ export class ActivitiesController extends BaseController {
     return this.respondSuccess(result);
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const entity = await this.entitiesService.findOne({ id });
+    if (!entity) {
+      this.respondNotFound(`Entity with ID ${id} not found`);
+    }
+    return this.respondSuccess(entity);
+  }
+
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') id: string,
-    @Body() updateActivityDto: UpdateActivityDto,
+    @Body() updateEntityDto: UpdateEntityDto,
     @Request() request: RequestWithUser,
   ) {
-    const activity = await this.activitiesService.update(
+    const entity = await this.entitiesService.update(
       request.user,
       id,
-      updateActivityDto,
+      updateEntityDto,
     );
-    return this.respondSuccess(activity, 'Activity updated successfully');
+    return this.respondSuccess(entity, 'Entity updated successfully');
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   async remove(@Request() request: RequestWithUser, @Param('id') id: string) {
-    await this.activitiesService.remove(
+    await this.entitiesService.remove(
       request.user.role as Role,
       id,
       request.user.id,
     );
-    return this.respondOk('Activity deleted successfully');
+    return this.respondOk('Entity deleted successfully');
   }
 }
