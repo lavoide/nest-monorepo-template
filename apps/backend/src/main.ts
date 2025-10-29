@@ -7,6 +7,7 @@ import { DOCUMENT_BUILDER_CONFIG_JWT } from './auth/auth.constants';
 import { validationExceptionFactory } from './common/exceptions/validation-exception.factory';
 import { ReportableExceptionFilter } from './exception-filters/reportable-exception.filter';
 import { PrismaExceptionsFilter } from './exception-filters/prisma-exceptions.filter';
+import { apiReference } from '@scalar/nestjs-api-reference';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -42,7 +43,18 @@ async function bootstrap() {
     .addBearerAuth(DOCUMENT_BUILDER_CONFIG_JWT, 'JWT-auth')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
+  // Uncomment to enable Swagger UI
+  // SwaggerModule.setup('swagger', app, document);
+
+  // Scalar API Reference UI
+  app.use(
+    '/reference',
+    apiReference({
+      spec: {
+        content: document,
+      },
+    }),
+  );
 
   const port = process.env.PORT || 3000;
   await app.listen(port, '0.0.0.0');
