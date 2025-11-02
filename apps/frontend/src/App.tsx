@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+
+import { ProtectedRoute } from './components/protected-route'
 import Home from './pages/home'
 import Login from './pages/login'
 import Signup from './pages/signup'
-import { ProtectedRoute } from './components/protected-route'
 import { useAuthStore } from './store/useAuthStore'
 
 /* Theme variables */

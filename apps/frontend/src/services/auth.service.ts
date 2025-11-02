@@ -1,5 +1,6 @@
 import { api } from '@/lib/api'
-import { AuthDto, RegisterDto as SharedRegisterDto, Role } from '@monorepo/shared'
+
+import type { AuthDto, Role, RegisterDto as SharedRegisterDto } from '@monorepo/shared'
 
 export type LoginRequest = AuthDto
 

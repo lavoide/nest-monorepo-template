@@ -1,8 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { authService, LoginRequest, SignupRequest, User } from '@/services/auth.service'
+
+import { authService } from '@/services/auth.service'
 import { useAuthStore } from '@/store/useAuthStore'
-import { AxiosError } from 'axios'
+
+import type { LoginRequest, SignupRequest } from '@/services/auth.service'
+import type { AxiosError } from 'axios'
 
 interface ErrorResponse {
   message: string

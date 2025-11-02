@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { Role } from '@monorepo/shared'
+
+import type { Role } from '@monorepo/shared'
 
 interface User {
   id: string

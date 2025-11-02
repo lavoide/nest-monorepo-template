@@ -1,5 +1,6 @@
-import ExploreContainer from '../components/explore-container'
 import { ThemeToggle } from '@/components/theme-toggle'
+
+import ExploreContainer from '../components/explore-container'
 
 const Home: React.FC = () => {
   return (
