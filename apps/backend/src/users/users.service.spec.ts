@@ -11,8 +11,6 @@ import type { TestingModule } from '@nestjs/testing';
 
 describe('UsersService', () => {
   let service: UsersService;
-  let prismaService: PrismaService;
-  let filesService: FilesService;
 
   const mockPrismaService = {
     user: {
@@ -47,8 +45,6 @@ describe('UsersService', () => {
     }).compile();
 
     service = module.get<UsersService>(UsersService);
-    prismaService = module.get<PrismaService>(PrismaService);
-    filesService = module.get<FilesService>(FilesService);
   });
 
   afterEach(() => {
