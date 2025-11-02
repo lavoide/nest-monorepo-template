@@ -25,10 +25,7 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react-refresh/only-export-components': 'off',
       'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
       'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
       'no-var': 'error',
@@ -36,6 +33,7 @@ export default tseslint.config(
       'prettier/prettier': 'error',
       'import/newline-after-import': ['error', { count: 1 }],
       'import/no-duplicates': ['error', { considerQueryString: true }],
+      'simple-import-sort/imports': 'off',
       'simple-import-sort/exports': 'error',
       '@typescript-eslint/no-explicit-any': 'warn',
       'sort-imports': [
