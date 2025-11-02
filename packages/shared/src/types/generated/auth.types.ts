@@ -1,28 +1,28 @@
 export interface AuthDto {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 export interface SocialAuthDto {
-  token: string;
+  token: string
 }
 
 export interface ForgotPasswordDto {
-  email: string;
+  email: string
 }
 
 export interface ResetPasswordDto {
-  token: string;
-  password: string;
+  token: string
+  password: string
 }
 
 export interface RegisterDto {
-  name: string;
-  email: string;
-  password: string;
+  name: string
+  email: string
+  password: string
 }
 
 export interface SocialRegisterDto {
-  name: string;
-  email: string;
+  name: string
+  email: string
 }

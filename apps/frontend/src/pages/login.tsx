@@ -1,5 +1,5 @@
-import { LoginForm } from "@/components/login-form"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { LoginForm } from '@/components/login-form'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 const Login = () => {
   return (

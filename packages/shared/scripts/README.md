@@ -12,17 +12,21 @@ This script automatically generates TypeScript interfaces from backend DTOs, ens
 ## Usage
 
 ### Manual generation
+
 ```bash
 npm run generate:types
 ```
 
 ### Watch mode (for development)
+
 ```bash
 npm run watch:types
 ```
 
 ### Automatic generation
+
 Types are automatically generated when:
+
 - Building the backend (`npm run build:backend`)
 - Building the shared package (`npm run build`)
 
@@ -45,22 +49,24 @@ Types are automatically generated when:
 ## Example
 
 Backend DTO:
+
 ```typescript
 export class RegisterDto {
   @ApiProperty()
   @IsString()
-  name: string;
+  name: string
 
   @ApiProperty()
   @IsEmail()
-  email: string;
+  email: string
 }
 ```
 
 Generated interface:
+
 ```typescript
 export interface RegisterDto {
-  name: string;
-  email: string;
+  name: string
+  email: string
 }
 ```

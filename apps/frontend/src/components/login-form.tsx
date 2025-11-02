@@ -1,56 +1,47 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Link } from "react-router-dom"
-import { useState, useEffect } from "react"
-import { useLogin } from "@/hooks/useAuth"
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useLogin } from '@/hooks/useAuth'
 
-export function LoginForm({
-  className = "",
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+export function LoginForm({ className = '', ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const loginMutation = useLogin()
   const [formData, setFormData] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   })
-  const [errors, setErrors] = useState<{[key: string]: string}>({})
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }))
     if (errors[id]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [id]: ""
+        [id]: '',
       }))
     }
   }
 
   const validateForm = () => {
-    const newErrors: {[key: string]: string} = {}
+    const newErrors: { [key: string]: string } = {}
 
     if (!formData.email) {
-      newErrors.email = "Email is required"
+      newErrors.email = 'Email is required'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email"
+      newErrors.email = 'Please enter a valid email'
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required"
+      newErrors.password = 'Password is required'
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters"
+      newErrors.password = 'Password must be at least 6 characters'
     }
 
     setErrors(newErrors)
@@ -59,7 +50,7 @@ export function LoginForm({
 
   useEffect(() => {
     if (loginMutation.isError) {
-      setErrors({ general: "Invalid email or password. Please try again." })
+      setErrors({ general: 'Invalid email or password. Please try again.' })
     }
   }, [loginMutation.isError])
 
@@ -78,7 +69,7 @@ export function LoginForm({
   }
 
   return (
-    <div className={cn("flex flex-col gap-6 w-full max-w-sm", className)} {...props}>
+    <div className={cn('flex flex-col gap-6 w-full max-w-sm', className)} {...props}>
       <Card className="border-0 shadow-none">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
@@ -90,9 +81,7 @@ export function LoginForm({
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
               {errors.general && (
-                <div className="text-sm text-red-500 text-center">
-                  {errors.general}
-                </div>
+                <div className="text-sm text-red-500 text-center">{errors.general}</div>
               )}
               <div className="flex flex-col gap-4">
                 <Button
@@ -143,17 +132,12 @@ export function LoginForm({
                     disabled={loginMutation.isPending}
                     required
                   />
-                  {errors.email && (
-                    <p className="text-sm text-red-500">{errors.email}</p>
-                  )}
+                  {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
                 </div>
                 <div className="grid gap-2">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
-                    <a
-                      href="#"
-                      className="ml-auto text-sm underline-offset-4 hover:underline"
-                    >
+                    <a href="#" className="ml-auto text-sm underline-offset-4 hover:underline">
                       Forgot your password?
                     </a>
                   </div>
@@ -165,16 +149,14 @@ export function LoginForm({
                     disabled={loginMutation.isPending}
                     required
                   />
-                  {errors.password && (
-                    <p className="text-sm text-red-500">{errors.password}</p>
-                  )}
+                  {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
                 </div>
                 <Button type="submit" className="w-full" disabled={loginMutation.isPending}>
-                  {loginMutation.isPending ? "Logging in..." : "Login"}
+                  {loginMutation.isPending ? 'Logging in...' : 'Login'}
                 </Button>
               </div>
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
+                Don&apos;t have an account?{' '}
                 <Link to="/signup" className="underline underline-offset-4">
                   Sign up
                 </Link>
@@ -184,8 +166,8 @@ export function LoginForm({
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="#">Terms of Service</a> and{' '}
+        <a href="#">Privacy Policy</a>.
       </div>
     </div>
   )

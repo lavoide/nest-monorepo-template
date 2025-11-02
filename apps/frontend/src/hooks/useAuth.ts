@@ -86,7 +86,10 @@ export const useForgotPassword = () => {
       console.log('Password reset email sent')
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      console.error('Forgot password error:', error.response?.data?.message || 'Failed to send reset email')
+      console.error(
+        'Forgot password error:',
+        error.response?.data?.message || 'Failed to send reset email'
+      )
     },
   })
 }
@@ -101,7 +104,10 @@ export const useResetPassword = () => {
       navigate('/login')
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      console.error('Reset password error:', error.response?.data?.message || 'Failed to reset password')
+      console.error(
+        'Reset password error:',
+        error.response?.data?.message || 'Failed to reset password'
+      )
     },
   })
 }
@@ -113,7 +119,10 @@ export const useVerifyEmail = () => {
       console.log('Email verified successfully')
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      console.error('Email verification error:', error.response?.data?.message || 'Failed to verify email')
+      console.error(
+        'Email verification error:',
+        error.response?.data?.message || 'Failed to verify email'
+      )
     },
   })
 }

@@ -4,7 +4,7 @@ const ExploreContainer: React.FC = () => {
       <strong className="text-xl font-bold mb-2">Ready to create an app?</strong>
       <p className="text-gray-600">Start building with React and Capacitor</p>
     </div>
-  );
-};
+  )
+}
 
-export default ExploreContainer;
+export default ExploreContainer

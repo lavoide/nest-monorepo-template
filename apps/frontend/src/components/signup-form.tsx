@@ -1,73 +1,64 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Link } from "react-router-dom"
-import { useState, useEffect } from "react"
-import { useSignup } from "@/hooks/useAuth"
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useSignup } from '@/hooks/useAuth'
 
-export function SignupForm({
-  className = "",
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+export function SignupForm({ className = '', ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const signupMutation = useSignup()
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   })
-  const [errors, setErrors] = useState<{[key: string]: string}>({})
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }))
     if (errors[id]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [id]: ""
+        [id]: '',
       }))
     }
   }
 
   const validateForm = () => {
-    const newErrors: {[key: string]: string} = {}
+    const newErrors: { [key: string]: string } = {}
 
     if (!formData.firstName) {
-      newErrors.firstName = "First name is required"
+      newErrors.firstName = 'First name is required'
     }
 
     if (!formData.lastName) {
-      newErrors.lastName = "Last name is required"
+      newErrors.lastName = 'Last name is required'
     }
 
     if (!formData.email) {
-      newErrors.email = "Email is required"
+      newErrors.email = 'Email is required'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email"
+      newErrors.email = 'Please enter a valid email'
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required"
+      newErrors.password = 'Password is required'
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters"
+      newErrors.password = 'Password must be at least 6 characters'
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Please confirm your password"
+      newErrors.confirmPassword = 'Please confirm your password'
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match"
+      newErrors.confirmPassword = 'Passwords do not match'
     }
 
     setErrors(newErrors)
@@ -76,7 +67,7 @@ export function SignupForm({
 
   useEffect(() => {
     if (signupMutation.isError) {
-      setErrors({ general: "Registration failed. Please try again." })
+      setErrors({ general: 'Registration failed. Please try again.' })
     }
   }, [signupMutation.isError])
 
@@ -97,7 +88,7 @@ export function SignupForm({
   }
 
   return (
-    <div className={cn("flex flex-col gap-6 w-full max-w-sm", className)} {...props}>
+    <div className={cn('flex flex-col gap-6 w-full max-w-sm', className)} {...props}>
       <Card className="border-0 shadow-none">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
@@ -109,9 +100,7 @@ export function SignupForm({
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
               {errors.general && (
-                <div className="text-sm text-red-500 text-center">
-                  {errors.general}
-                </div>
+                <div className="text-sm text-red-500 text-center">{errors.general}</div>
               )}
               <div className="flex flex-col gap-4">
                 <Button
@@ -162,9 +151,7 @@ export function SignupForm({
                     disabled={signupMutation.isPending}
                     required
                   />
-                  {errors.firstName && (
-                    <p className="text-sm text-red-500">{errors.firstName}</p>
-                  )}
+                  {errors.firstName && <p className="text-sm text-red-500">{errors.firstName}</p>}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="lastName">Last Name</Label>
@@ -177,9 +164,7 @@ export function SignupForm({
                     disabled={signupMutation.isPending}
                     required
                   />
-                  {errors.lastName && (
-                    <p className="text-sm text-red-500">{errors.lastName}</p>
-                  )}
+                  {errors.lastName && <p className="text-sm text-red-500">{errors.lastName}</p>}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
@@ -192,9 +177,7 @@ export function SignupForm({
                     disabled={signupMutation.isPending}
                     required
                   />
-                  {errors.email && (
-                    <p className="text-sm text-red-500">{errors.email}</p>
-                  )}
+                  {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password">Password</Label>
@@ -207,9 +190,7 @@ export function SignupForm({
                     disabled={signupMutation.isPending}
                     required
                   />
-                  {errors.password && (
-                    <p className="text-sm text-red-500">{errors.password}</p>
-                  )}
+                  {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -227,11 +208,11 @@ export function SignupForm({
                   )}
                 </div>
                 <Button type="submit" className="w-full" disabled={signupMutation.isPending}>
-                  {signupMutation.isPending ? "Creating Account..." : "Create Account"}
+                  {signupMutation.isPending ? 'Creating Account...' : 'Create Account'}
                 </Button>
               </div>
               <div className="text-center text-sm">
-                Already have an account?{" "}
+                Already have an account?{' '}
                 <Link to="/login" className="underline underline-offset-4">
                   Login
                 </Link>
@@ -241,8 +222,8 @@ export function SignupForm({
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="#">Terms of Service</a> and{' '}
+        <a href="#">Privacy Policy</a>.
       </div>
     </div>
   )

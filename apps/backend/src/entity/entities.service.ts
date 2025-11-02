@@ -38,11 +38,7 @@ export class EntitiesService {
     throw new HttpException(ENTITY_ERRORS.NOT_FOUND, HttpStatus.NOT_FOUND);
   }
 
-  async update(
-    user: User,
-    id: string,
-    data: UpdateEntityDto,
-  ): Promise<Entity> {
+  async update(user: User, id: string, data: UpdateEntityDto): Promise<Entity> {
     const entity = await this.findOne({ id });
     if (user.role === Role.ADMIN || entity.userId === user.id) {
       return this.prisma.entity.update({

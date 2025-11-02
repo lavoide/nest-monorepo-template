@@ -30,6 +30,6 @@
       "@common/*": ["src/common/*"],
       "@constants/*": ["src/constants/*"],
       "@filters/*": ["src/exception-filters/*"]
-    },
+    }
   }
 }

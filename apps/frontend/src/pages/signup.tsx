@@ -1,5 +1,5 @@
-import { SignupForm } from "@/components/signup-form"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { SignupForm } from '@/components/signup-form'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 const Signup = () => {
   return (
