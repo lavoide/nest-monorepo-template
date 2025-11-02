@@ -1,13 +1,14 @@
-import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { apiReference } from '@scalar/nestjs-api-reference';
 import * as cookieParser from 'cookie-parser';
+
 import { AppModule } from './app.module';
 import { DOCUMENT_BUILDER_CONFIG_JWT } from './auth/auth.constants';
 import { validationExceptionFactory } from './common/exceptions/validation-exception.factory';
-import { ReportableExceptionFilter } from './exception-filters/reportable-exception.filter';
 import { PrismaExceptionsFilter } from './exception-filters/prisma-exceptions.filter';
-import { apiReference } from '@scalar/nestjs-api-reference';
+import { ReportableExceptionFilter } from './exception-filters/reportable-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

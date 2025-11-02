@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { HelpersService } from './helpers.service';
+
 import { HelpersController } from './helpers.controller';
+import { HelpersService } from './helpers.service';
 
 @Module({
   controllers: [HelpersController],

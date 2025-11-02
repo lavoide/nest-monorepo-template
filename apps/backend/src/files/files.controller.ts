@@ -1,26 +1,27 @@
 import {
   Controller,
-  Get,
-  Request,
-  Post,
-  Param,
   Delete,
-  UseInterceptors,
-  UploadedFile,
-  ParseFilePipe,
-  MaxFileSizeValidator,
   FileTypeValidator,
-  StreamableFile,
+  Get,
   Header,
+  MaxFileSizeValidator,
+  Param,
+  ParseFilePipe,
+  Post,
+  Request,
+  StreamableFile,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 import { createReadStream } from 'fs';
 import { join } from 'path';
+
+import { FilesService } from './files.service';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
 import RequestWithUser from '../auth/requestWithUser.interface';
-import { ApiTags } from '@nestjs/swagger';
 import { BaseController } from '../common/base.controller';
 
 @Controller('files')

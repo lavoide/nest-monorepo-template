@@ -1,4 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
+
 import { AbstractReportableException } from './abstract-reportable.exception';
 
 // Example of a custom business exception that extends the abstract reportable exception

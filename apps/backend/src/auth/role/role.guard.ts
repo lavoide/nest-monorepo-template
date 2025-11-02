@@ -1,6 +1,8 @@
-import RequestWithUser from '../requestWithUser.interface';
-import { Role } from '@monorepo/shared';
-import { CanActivate, ExecutionContext, mixin, Type } from '@nestjs/common';
+import { mixin } from '@nestjs/common';
+
+import type RequestWithUser from '../requestWithUser.interface';
+import type { Role } from '@monorepo/shared';
+import type { CanActivate, ExecutionContext, Type } from '@nestjs/common';
 
 const RoleGuard = (roles: Array<Role>): Type<CanActivate> => {
   class RoleGuardMixin implements CanActivate {

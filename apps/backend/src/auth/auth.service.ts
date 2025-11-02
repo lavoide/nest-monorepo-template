@@ -1,13 +1,15 @@
-import * as bcrypt from 'bcryptjs';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
 import { OAuth2Client } from 'google-auth-library';
-import { UsersService } from '../users/users.service';
-import { RegisterDto, SocialRegisterDto } from './dto/register.dto';
+
 import { AUTH_ERRORS, AUTH_INFO, JWT_PUBLIC } from './auth.constants';
-import { PrismaService } from '../prisma/prisma.service';
 import { MailService } from '../mail/mail.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { UsersService } from '../users/users.service';
+
+import type { RegisterDto, SocialRegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {

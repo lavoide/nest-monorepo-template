@@ -1,10 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Role } from '@monorepo/shared';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+
 import { EntitiesService } from './entities.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { HttpException, HttpStatus } from '@nestjs/common';
-import { CreateEntityDto } from './dto/create-entity.dto';
-import { UpdateEntityDto } from './dto/update-entity.dto';
-import { Role } from '@monorepo/shared';
+
+import type { CreateEntityDto } from './dto/create-entity.dto';
+import type { UpdateEntityDto } from './dto/update-entity.dto';
+import type { TestingModule } from '@nestjs/testing';
 
 describe('EntitiesService', () => {
   let service: EntitiesService;

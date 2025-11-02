@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsEnum } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
+
 import { OrderDirectionConstants } from '../../shared/helpers/helpers.contsants';
 
 export class EntityQueryDto {

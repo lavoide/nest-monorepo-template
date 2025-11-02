@@ -1,8 +1,9 @@
+import { Role } from '@monorepo/shared';
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { UserDto } from './user-dto';
 import { IsEmail, MaxLength, MinLength } from 'class-validator';
-import { Role } from '@monorepo/shared';
+
+import { UserDto } from './user-dto';
 
 export class UpdateUserDto extends PartialType(UserDto) {
   @ApiProperty()

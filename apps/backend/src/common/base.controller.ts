@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ApiOkResponseDto } from './dto/api-ok-response.dto';
+
+import type { ApiOkResponseDto } from './dto/api-ok-response.dto';
 
 @Injectable()
 export class BaseController {

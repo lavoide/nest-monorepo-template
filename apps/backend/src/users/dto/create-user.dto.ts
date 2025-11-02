@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserDto } from './user-dto';
-import { IsEmail, MaxLength, MinLength } from 'class-validator';
 import { Role } from '@prisma/client';
+import { IsEmail, MaxLength, MinLength } from 'class-validator';
+
+import { UserDto } from './user-dto';
 
 export class CreateUserDto extends UserDto {
   @ApiProperty()

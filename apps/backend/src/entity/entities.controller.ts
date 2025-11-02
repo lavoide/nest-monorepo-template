@@ -1,26 +1,28 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Entity } from '@prisma/client';
-import { EntitiesService } from './entities.service';
+
 import { CreateEntityDto } from './dto/create-entity.dto';
 import { UpdateEntityDto } from './dto/update-entity.dto';
-import RequestWithUser from '../auth/requestWithUser.interface';
+import { EntitiesService } from './entities.service';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
-import { HelpersService } from '../shared/helpers/helpers.service';
-import { EntityQueryDto } from '../shared/helpers/dto/entity-query.dto';
-import { Role } from '@monorepo/shared';
+import RequestWithUser from '../auth/requestWithUser.interface';
 import { BaseController } from '../common/base.controller';
+import { EntityQueryDto } from '../shared/helpers/dto/entity-query.dto';
+import { HelpersService } from '../shared/helpers/helpers.service';
+
+import type { Role } from '@monorepo/shared';
 
 @Controller('entities')
 @ApiTags('Entities')

@@ -1,4 +1,4 @@
-import { SecuritySchemeObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import type { SecuritySchemeObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 
 export const AUTH_ERRORS = {
   SOMETHING_WRONG: 'Something went wrong',

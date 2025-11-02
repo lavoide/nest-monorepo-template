@@ -1,4 +1,6 @@
-import { BadRequestException, ValidationError } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
+
+import type { ValidationError } from '@nestjs/common';
 
 export const validationExceptionFactory = (
   validationErrors: ValidationError[] = [],

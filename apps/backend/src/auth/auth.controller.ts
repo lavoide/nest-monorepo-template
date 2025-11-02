@@ -6,19 +6,18 @@ import {
   HttpStatus,
   Post,
   Request,
-  Res,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AuthService } from './auth.service';
 import { AuthDto, SocialAuthDto } from './dto/auth.dto';
-import { RegisterDto, SocialRegisterDto } from './dto/register.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { LocalAuthGuard } from './local/localAuth.guard';
-import { JwtAuthGuard } from './jwt/jwtAuth.guard';
-import RequestWithUser from './requestWithUser.interface';
-import { Response } from 'express';
-import JwtRefreshGuard from './jwt/jwtRefresh.guard';
 import { ForgotPasswordDto, ResetPasswordDto } from './dto/password.dto';
+import { RegisterDto, SocialRegisterDto } from './dto/register.dto';
+import { JwtAuthGuard } from './jwt/jwtAuth.guard';
+import JwtRefreshGuard from './jwt/jwtRefresh.guard';
+import { LocalAuthGuard } from './local/localAuth.guard';
+import RequestWithUser from './requestWithUser.interface';
 import { BaseController } from '../common/base.controller';
 
 @Controller('auth')

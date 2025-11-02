@@ -1,8 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Test } from '@nestjs/testing';
+
 import { FilesService } from './files.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { ConfigService } from '@nestjs/config';
-import { HttpException, HttpStatus } from '@nestjs/common';
+
+import type { TestingModule } from '@nestjs/testing';
 
 describe('FilesService', () => {
   let service: FilesService;

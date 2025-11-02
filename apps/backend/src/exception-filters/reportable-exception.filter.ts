@@ -1,6 +1,9 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
-import { Response } from 'express';
+import { Catch } from '@nestjs/common';
+
 import { AbstractReportableException } from '../common/exceptions/abstract-reportable.exception';
+
+import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common';
+import type { Response } from 'express';
 
 @Catch(AbstractReportableException)
 export class ReportableExceptionFilter implements ExceptionFilter {

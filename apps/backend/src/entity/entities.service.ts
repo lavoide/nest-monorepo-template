@@ -1,16 +1,18 @@
+import { Role } from '@monorepo/shared';
 import {
   HttpException,
   HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Entity, Prisma, User } from '@prisma/client';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateEntityDto } from './dto/create-entity.dto';
-import { UpdateEntityDto } from './dto/update-entity.dto';
+
 import { ENTITY_ERRORS } from './entities.constants';
 import { AUTH_ERRORS } from '../auth/auth.constants';
-import { Role } from '@monorepo/shared';
+import { PrismaService } from '../prisma/prisma.service';
+
+import type { CreateEntityDto } from './dto/create-entity.dto';
+import type { UpdateEntityDto } from './dto/update-entity.dto';
+import type { Entity, Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class EntitiesService {

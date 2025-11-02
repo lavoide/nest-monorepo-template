@@ -1,28 +1,29 @@
+import { Role } from '@monorepo/shared';
 import {
-  Controller,
-  Get,
-  Request,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  FileTypeValidator,
+  Get,
+  MaxFileSizeValidator,
+  Param,
+  ParseFilePipe,
+  Patch,
+  Post,
+  Request,
+  UploadedFile,
   UseGuards,
   UseInterceptors,
-  UploadedFile,
-  ParseFilePipe,
-  MaxFileSizeValidator,
-  FileTypeValidator,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
-import { UsersService } from './users.service';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import RoleGuard from '../auth/role/role.guard';
-import { Role } from '@monorepo/shared';
+import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
-import { FileInterceptor } from '@nestjs/platform-express';
 import RequestWithUser from '../auth/requestWithUser.interface';
+import RoleGuard from '../auth/role/role.guard';
 import { BaseController } from '../common/base.controller';
 
 @Controller('users')

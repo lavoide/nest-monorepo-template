@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { EntitiesService } from './entities.service';
+
 import { EntitiesController } from './entities.controller';
+import { EntitiesService } from './entities.service';
 import { HelpersModule } from '../shared/helpers/helpers.module';
 
 @Module({
