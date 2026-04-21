@@ -1,0 +1,36 @@
+{
+  "common": {
+    "loading": "",
+    "search": "",
+    "back": "",
+    "cancel": "",
+    "create": "",
+    "delete": "",
+    "edit": "",
+    "save": "",
+    "close": ""
+  },
+  "errors": {
+    "auth": {
+      "somethingWrong": "",
+      "wrongCreds": "",
+      "invalidToken": "",
+      "cantDelete": "",
+      "cantEdit": "",
+      "wrongGoogleToken": ""
+    },
+    "user": {
+      "notFound": ""
+    },
+    "entity": {
+      "notFound": "",
+      "wrongPage": "",
+      "wrongParam": "",
+      "wrongOrder": ""
+    },
+    "file": {
+      "notFound": "",
+      "errorDeleting": ""
+    }
+  }
+}

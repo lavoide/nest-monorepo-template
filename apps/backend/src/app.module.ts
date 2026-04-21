@@ -6,6 +6,7 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { EntitiesModule } from './entity/entities.module';
 import { FilesModule } from './files/files.module';
+import { I18nModule } from './i18n/i18n.module';
 import { MailModule } from './mail/mail.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { HelpersModule } from './shared/helpers/helpers.module';
@@ -28,6 +29,7 @@ import { UsersModule } from './users/users.module';
         exclude: ['/api/(.*)', '/app/(.*)', '/swagger/(.*)'],
       },
     ),
+    I18nModule,
     PrismaModule,
     MailModule,
     UsersModule,

@@ -1,27 +1,15 @@
-import type { Type } from '@nestjs/common';
-import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
-export function ApiResponseDto<T>(DataDto: Type<T>) {
-  class ApiResponseDtoClass {
-    @ApiProperty({ example: true })
-    success: boolean;
+export class ApiResponseDto<T = any> {
+  @ApiProperty()
+  success: boolean;
 
-    @ApiProperty({ example: 'Success' })
-    message: string;
+  @ApiProperty()
+  message: string;
 
-    @ApiProperty({ example: new Date().toISOString() })
-    timestamp: string;
+  @ApiProperty()
+  data: T;
 
-    @ApiProperty({
-      description: 'Response data',
-      oneOf: [{ $ref: getSchemaPath(DataDto) }],
-    })
-    data: T;
-  }
-
-  Object.defineProperty(ApiResponseDtoClass, 'name', {
-    value: `ApiResponseDto_${DataDto.name}`,
-  });
-
-  return ApiResponseDtoClass;
+  @ApiProperty()
+  timestamp: string;
 }

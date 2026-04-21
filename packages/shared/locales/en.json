@@ -1,0 +1,36 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "search": "Search...",
+    "back": "Back",
+    "cancel": "Cancel",
+    "create": "Create",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "close": "Close"
+  },
+  "errors": {
+    "auth": {
+      "somethingWrong": "Something went wrong",
+      "wrongCreds": "Wrong credentials provided",
+      "invalidToken": "Invalid token",
+      "cantDelete": "You are not authorized to delete this record",
+      "cantEdit": "You are not authorized to edit this record",
+      "wrongGoogleToken": "Invalid google token"
+    },
+    "user": {
+      "notFound": "User not found"
+    },
+    "entity": {
+      "notFound": "Entity not found",
+      "wrongPage": "Wrong page value",
+      "wrongParam": "Wrong parameter",
+      "wrongOrder": "Wrong sorting order"
+    },
+    "file": {
+      "notFound": "File not found",
+      "errorDeleting": "Error deleting file"
+    }
+  }
+}
