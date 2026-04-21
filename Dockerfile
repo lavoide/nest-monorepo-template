@@ -42,7 +42,7 @@ RUN npm install -g bun@1.3.9 && \
     bun install --frozen-lockfile --production
 
 COPY --from=builder /app/apps/backend/dist ./apps/backend/dist
-COPY --from=builder /app/apps/backend/node_modules/.prisma/client ./apps/backend/node_modules/.prisma/client
+COPY --from=builder /app/node_modules/.prisma/client ./node_modules/.prisma/client
 COPY --from=builder /app/apps/frontend/dist ./apps/frontend/dist
 COPY --from=builder /app/apps/website/dist ./apps/website/dist
 COPY --from=builder /app/packages/shared/dist ./packages/shared/dist

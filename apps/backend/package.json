@@ -5,7 +5,7 @@
   "description": "Nest TypeScript starter repository",
   "license": "MIT",
   "scripts": {
-    "build": "cd ../../packages/shared && npm run generate:types && cd ../../apps/backend && nest build",
+    "build": "cd ../../packages/shared && bun run generate:types && cd ../../apps/backend && nest build",
     "dev": "nest start --watch",
     "format": "biome format --write .",
     "start": "nest start",

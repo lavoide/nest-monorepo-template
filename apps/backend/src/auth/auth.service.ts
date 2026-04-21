@@ -1,3 +1,4 @@
+import { ERROR_KEYS } from '@monorepo/shared';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -6,7 +7,7 @@ import { OAuth2Client } from 'google-auth-library';
 import { MailService } from '../mail/mail.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
-import { AUTH_ERRORS, AUTH_INFO, JWT_PUBLIC } from './auth.constants';
+import { AUTH_INFO, JWT_PUBLIC } from './auth.constants';
 
 import type { RegisterDto, SocialRegisterDto } from './dto/register.dto';
 
@@ -99,7 +100,10 @@ export class AuthService {
       hashedPassword,
     );
     if (!isPasswordMatching) {
-      throw new HttpException(AUTH_ERRORS.WRONG_CREDS, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        ERROR_KEYS.AUTH.WRONG_CREDS,
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -120,7 +124,7 @@ export class AuthService {
       };
     } catch (_error) {
       throw new HttpException(
-        AUTH_ERRORS.WRONG_GOOGLE_TOKEN,
+        ERROR_KEYS.AUTH.WRONG_GOOGLE_TOKEN,
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -141,7 +145,7 @@ export class AuthService {
     });
     if (isUserExist) {
       throw new HttpException(
-        AUTH_ERRORS.SOMETHING_WRONG,
+        ERROR_KEYS.AUTH.SOMETHING_WRONG,
         HttpStatus.BAD_REQUEST,
       );
     }
