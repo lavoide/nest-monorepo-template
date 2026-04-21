@@ -1,10 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import type { ApiOkResponseDto } from './dto/api-ok-response.dto';
+import type { ApiResponseDto } from './dto/api-response.dto';
 
 @Injectable()
 export class BaseController {
-  protected respondSuccess(data: any = null, message = 'Success') {
+  protected respondSuccess<T>(
+    data: T = null as T,
+    message = 'Success',
+  ): ApiResponseDto<T> {
     return {
       success: true,
       message,
@@ -47,7 +51,7 @@ export class BaseController {
     return this.respondError(message, HttpStatus.FORBIDDEN);
   }
 
-  protected respondCreated(data: any = null) {
+  protected respondCreated<T>(data: T = null as T): ApiResponseDto<T> {
     return this.respondSuccess(data, 'Created');
   }
 

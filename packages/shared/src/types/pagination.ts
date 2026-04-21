@@ -1,0 +1,19 @@
+export interface PaginationMeta {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: PaginationMeta;
+}
+
+export interface CursorResponse<T> {
+  data: T[];
+  nextCursor: string | null;
+  hasMore: boolean;
+}
