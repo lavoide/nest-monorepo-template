@@ -33,10 +33,33 @@ All controllers extend `BaseController` (`src/common/base.controller.ts`):
 - `respondSuccess<T>(data, message)`, `respondCreated<T>(data)`, `respondOk(message)`, `respondNotFound(message)`
 - Type assertions: `as unknown as DtoType` (never `as any`)
 
+## Errors & i18n
+
+User-facing exceptions use i18n keys, not hardcoded strings:
+
+```typescript
+import { ERROR_KEYS } from '@monorepo/shared';
+throw new HttpException(ERROR_KEYS.AUTH.WRONG_CREDS, HttpStatus.BAD_REQUEST);
+// With interpolation params:
+throw new HttpException({
+  message: ERROR_KEYS.ENTITY.NOT_FOUND,
+  params: { id: entityId },
+});
+```
+
+Keys live under `errors.*` in `packages/shared/locales/{en,uk}.json`. When adding a new key, add to both `ERROR_KEYS` and both locale files.
+
+`BackendI18nService` (`src/i18n/i18n.service.ts`) translates keys for server-originated content like emails/notifications. For API responses, the backend emits the key and the frontend translates — the backend doesn't know the user's language.
+
+## Sensitive fields
+
+`src/common/utils/sanitize.util.ts` — `stripFields`, `stripSensitiveUserFields` (strips `password`, `refreshToken`). Use before returning User records to clients.
+
 ## Key Constraints
 
 1. DTOs are the source of truth for frontend types
 2. All input validated with class-validator
 3. Use `BaseController` response methods
 4. `as unknown as Type`, never `as any`
-5. Strip sensitive fields (passwords, tokens) before returning to clients
+5. Strip sensitive fields via `sanitize.util.ts` before returning to clients
+6. Errors use `ERROR_KEYS` from `@monorepo/shared`, never hardcoded strings

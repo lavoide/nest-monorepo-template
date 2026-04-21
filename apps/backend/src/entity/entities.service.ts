@@ -1,4 +1,4 @@
-import { Role } from '@monorepo/shared';
+import { ERROR_KEYS, Role } from '@monorepo/shared';
 import {
   HttpException,
   HttpStatus,
@@ -6,12 +6,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import type { Entity, Prisma, User } from '@prisma/client';
-import { AUTH_ERRORS } from '../auth/auth.constants';
 import { PrismaService } from '../prisma/prisma.service';
 
 import type { CreateEntityDto } from './dto/create-entity.dto';
 import type { UpdateEntityDto } from './dto/update-entity.dto';
-import { ENTITY_ERRORS } from './entities.constants';
 
 @Injectable()
 export class EntitiesService {
@@ -36,7 +34,7 @@ export class EntitiesService {
     if (entity) {
       return entity;
     }
-    throw new HttpException(ENTITY_ERRORS.NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new HttpException(ERROR_KEYS.ENTITY.NOT_FOUND, HttpStatus.NOT_FOUND);
   }
 
   async update(user: User, id: string, data: UpdateEntityDto): Promise<Entity> {
@@ -47,7 +45,7 @@ export class EntitiesService {
         data,
       });
     } else {
-      throw new UnauthorizedException(AUTH_ERRORS.CANT_DELETE);
+      throw new UnauthorizedException(ERROR_KEYS.AUTH.CANT_DELETE);
     }
   }
 
@@ -58,7 +56,7 @@ export class EntitiesService {
         where: { id },
       });
     } else {
-      throw new UnauthorizedException(AUTH_ERRORS.CANT_DELETE);
+      throw new UnauthorizedException(ERROR_KEYS.AUTH.CANT_DELETE);
     }
   }
 }

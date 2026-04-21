@@ -1,3 +1,4 @@
+import { ERROR_KEYS } from '@monorepo/shared';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
@@ -5,7 +6,6 @@ import * as bcrypt from 'bcryptjs';
 import type { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UsersService } from '../../users/users.service';
-import { AUTH_ERRORS } from '../auth.constants';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
@@ -38,6 +38,9 @@ export class JwtRefreshStrategy extends PassportStrategy(
         role: payload.role,
       };
     }
-    throw new HttpException(AUTH_ERRORS.INVALID_TOKEN, HttpStatus.UNAUTHORIZED);
+    throw new HttpException(
+      ERROR_KEYS.AUTH.INVALID_TOKEN,
+      HttpStatus.UNAUTHORIZED,
+    );
   }
 }

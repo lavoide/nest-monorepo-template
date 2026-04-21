@@ -4,12 +4,12 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
+import { ERROR_KEYS } from '@monorepo/shared';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { Prisma } from '@prisma/client';
 import { v4 as uuid } from 'uuid';
 import { PrismaService } from '../prisma/prisma.service';
-import { FILE_ERRORS } from './files.contsants';
 
 @Injectable()
 export class FilesService {
@@ -101,7 +101,7 @@ export class FilesService {
     if (file) {
       return file;
     }
-    throw new HttpException(FILE_ERRORS.NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new HttpException(ERROR_KEYS.FILE.NOT_FOUND, HttpStatus.NOT_FOUND);
   }
 
   async findOnePublic(fileWhereUniqueInput: Prisma.PublicFileWhereUniqueInput) {
@@ -111,7 +111,7 @@ export class FilesService {
     if (file) {
       return file;
     }
-    throw new HttpException(FILE_ERRORS.NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new HttpException(ERROR_KEYS.FILE.NOT_FOUND, HttpStatus.NOT_FOUND);
   }
 
   async remove(where: Prisma.FileWhereUniqueInput) {
@@ -136,12 +136,12 @@ export class FilesService {
         await this.s3.send(new DeleteObjectCommand(params));
       } catch (_err) {
         throw new HttpException(
-          FILE_ERRORS.ERROR_DELETING,
+          ERROR_KEYS.FILE.ERROR_DELETING,
           HttpStatus.BAD_REQUEST,
         );
       }
     } catch (_err) {
-      throw new HttpException(FILE_ERRORS.NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new HttpException(ERROR_KEYS.FILE.NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     await this.prisma.publicFile.delete({
