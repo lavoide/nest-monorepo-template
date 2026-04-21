@@ -1,0 +1,7 @@
+node_modules
+.git
+README.md
+CLAUDE.md
+docs/
+.env*
+dist
