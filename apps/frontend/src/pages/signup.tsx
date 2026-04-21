@@ -1,5 +1,5 @@
-import { SignupForm } from '@/components/signup-form'
-import { ThemeToggle } from '@/components/theme-toggle'
+import { SignupForm } from '@/components/signup-form';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const Signup = () => {
   return (
@@ -9,7 +9,7 @@ const Signup = () => {
       </div>
       <SignupForm />
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

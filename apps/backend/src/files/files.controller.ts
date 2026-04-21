@@ -18,11 +18,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { createReadStream } from 'fs';
 import { join } from 'path';
-
-import { FilesService } from './files.service';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
 import RequestWithUser from '../auth/requestWithUser.interface';
 import { BaseController } from '../common/base.controller';
+import { FilesService } from './files.service';
 
 @Controller('files')
 @ApiTags('Files')

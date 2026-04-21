@@ -1,98 +1,111 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { useSignup } from '@/hooks/useAuth'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useSignup } from '@/hooks/useAuth';
+import { cn } from '@/lib/utils';
 
-export function SignupForm({ className = '', ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  const signupMutation = useSignup()
+export function SignupForm({
+  className = '',
+  ...props
+}: React.ComponentPropsWithoutRef<'div'>) {
+  const signupMutation = useSignup();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
-  })
-  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  });
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target
+    const { id, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [id]: value,
-    }))
+    }));
     if (errors[id]) {
       setErrors((prev) => ({
         ...prev,
         [id]: '',
-      }))
+      }));
     }
-  }
+  };
 
   const validateForm = () => {
-    const newErrors: { [key: string]: string } = {}
+    const newErrors: { [key: string]: string } = {};
 
     if (!formData.firstName) {
-      newErrors.firstName = 'First name is required'
+      newErrors.firstName = 'First name is required';
     }
 
     if (!formData.lastName) {
-      newErrors.lastName = 'Last name is required'
+      newErrors.lastName = 'Last name is required';
     }
 
     if (!formData.email) {
-      newErrors.email = 'Email is required'
+      newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email'
+      newErrors.email = 'Please enter a valid email';
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required'
+      newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters'
+      newErrors.password = 'Password must be at least 6 characters';
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password'
+      newErrors.confirmPassword = 'Please confirm your password';
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match'
+      newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   useEffect(() => {
     if (signupMutation.isError) {
-      setErrors({ general: 'Registration failed. Please try again.' })
+      setErrors({ general: 'Registration failed. Please try again.' });
     }
-  }, [signupMutation.isError])
+  }, [signupMutation.isError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!validateForm()) return
+    if (!validateForm()) return;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { confirmPassword, ...signupData } = formData
-    signupMutation.mutate(signupData)
-  }
+    const { confirmPassword: _confirmPassword, ...signupData } = formData;
+    signupMutation.mutate(signupData);
+  };
 
   const handleSocialSignup = async (provider: string) => {
     // TODO: Implement OAuth signup
-    console.log(`Signup with ${provider}`)
+    console.log(`Signup with ${provider}`);
     // This would typically call a different endpoint or redirect to OAuth provider
-  }
+  };
 
   return (
-    <div className={cn('flex flex-col gap-6 w-full max-w-sm', className)} {...props}>
+    <div
+      className={cn('flex flex-col gap-6 w-full max-w-sm', className)}
+      {...props}
+    >
       <Card className="border-0 shadow-none">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            Create an account
+          </CardTitle>
           <CardDescription className="text-center">
             Sign up to get started with our service
           </CardDescription>
@@ -101,7 +114,9 @@ export function SignupForm({ className = '', ...props }: React.ComponentPropsWit
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
               {errors.general && (
-                <div className="text-sm text-red-500 text-center">{errors.general}</div>
+                <div className="text-sm text-red-500 text-center">
+                  {errors.general}
+                </div>
               )}
               <div className="flex flex-col gap-4">
                 <Button
@@ -152,7 +167,9 @@ export function SignupForm({ className = '', ...props }: React.ComponentPropsWit
                     disabled={signupMutation.isPending}
                     required
                   />
-                  {errors.firstName && <p className="text-sm text-red-500">{errors.firstName}</p>}
+                  {errors.firstName && (
+                    <p className="text-sm text-red-500">{errors.firstName}</p>
+                  )}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="lastName">Last Name</Label>
@@ -165,7 +182,9 @@ export function SignupForm({ className = '', ...props }: React.ComponentPropsWit
                     disabled={signupMutation.isPending}
                     required
                   />
-                  {errors.lastName && <p className="text-sm text-red-500">{errors.lastName}</p>}
+                  {errors.lastName && (
+                    <p className="text-sm text-red-500">{errors.lastName}</p>
+                  )}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
@@ -178,7 +197,9 @@ export function SignupForm({ className = '', ...props }: React.ComponentPropsWit
                     disabled={signupMutation.isPending}
                     required
                   />
-                  {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+                  {errors.email && (
+                    <p className="text-sm text-red-500">{errors.email}</p>
+                  )}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password">Password</Label>
@@ -191,7 +212,9 @@ export function SignupForm({ className = '', ...props }: React.ComponentPropsWit
                     disabled={signupMutation.isPending}
                     required
                   />
-                  {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
+                  {errors.password && (
+                    <p className="text-sm text-red-500">{errors.password}</p>
+                  )}
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -205,11 +228,19 @@ export function SignupForm({ className = '', ...props }: React.ComponentPropsWit
                     required
                   />
                   {errors.confirmPassword && (
-                    <p className="text-sm text-red-500">{errors.confirmPassword}</p>
+                    <p className="text-sm text-red-500">
+                      {errors.confirmPassword}
+                    </p>
                   )}
                 </div>
-                <Button type="submit" className="w-full" disabled={signupMutation.isPending}>
-                  {signupMutation.isPending ? 'Creating Account...' : 'Create Account'}
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={signupMutation.isPending}
+                >
+                  {signupMutation.isPending
+                    ? 'Creating Account...'
+                    : 'Create Account'}
                 </Button>
               </div>
               <div className="text-center text-sm">
@@ -223,9 +254,9 @@ export function SignupForm({ className = '', ...props }: React.ComponentPropsWit
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a> and{' '}
-        <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{' '}
+        and <a href="#">Privacy Policy</a>.
       </div>
     </div>
-  )
+  );
 }

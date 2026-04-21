@@ -17,14 +17,13 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
-
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt/jwtAuth.guard';
 import RequestWithUser from '../auth/requestWithUser.interface';
 import RoleGuard from '../auth/role/role.guard';
 import { BaseController } from '../common/base.controller';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 @ApiTags('Users')

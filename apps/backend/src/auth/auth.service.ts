@@ -3,11 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { OAuth2Client } from 'google-auth-library';
-
-import { AUTH_ERRORS, AUTH_INFO, JWT_PUBLIC } from './auth.constants';
 import { MailService } from '../mail/mail.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
+import { AUTH_ERRORS, AUTH_INFO, JWT_PUBLIC } from './auth.constants';
 
 import type { RegisterDto, SocialRegisterDto } from './dto/register.dto';
 
@@ -119,7 +118,7 @@ export class AuthService {
         picture: payload.picture,
         googleId: payload.sub,
       };
-    } catch (error) {
+    } catch (_error) {
       throw new HttpException(
         AUTH_ERRORS.WRONG_GOOGLE_TOKEN,
         HttpStatus.BAD_REQUEST,
@@ -129,7 +128,7 @@ export class AuthService {
 
   public async register(registrationData: RegisterDto | SocialRegisterDto) {
     let hashedPassword = null;
-    if (registrationData.hasOwnProperty('password')) {
+    if (Object.hasOwn(registrationData, 'password')) {
       hashedPassword = await bcrypt.hash(registrationData['password'], 10);
     } else {
       const randomPassword = bcrypt.genSaltSync(10);

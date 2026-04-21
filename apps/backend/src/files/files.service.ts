@@ -6,12 +6,10 @@ import {
 } from '@aws-sdk/client-s3';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { v4 as uuid } from 'uuid';
-
-import { FILE_ERRORS } from './files.contsants';
-import { PrismaService } from '../prisma/prisma.service';
-
 import type { Prisma } from '@prisma/client';
+import { v4 as uuid } from 'uuid';
+import { PrismaService } from '../prisma/prisma.service';
+import { FILE_ERRORS } from './files.contsants';
 
 @Injectable()
 export class FilesService {
@@ -34,7 +32,7 @@ export class FilesService {
     const key = `${uuid()}-avatar.${file.originalname.split('.').pop()}`;
     const bucketName = this.configService.get('AWS_PUBLIC_BUCKET_NAME');
 
-    const uploadResult = await this.s3.send(
+    await this.s3.send(
       new PutObjectCommand({
         Bucket: bucketName,
         Body: file.buffer,
@@ -74,7 +72,7 @@ export class FilesService {
     const key = `${uuid()}-privatefile.${file.originalname.split('.').pop()}`;
     const bucketName = this.configService.get('AWS_PRIVATE_BUCKET_NAME');
 
-    const uploadResult = await this.s3.send(
+    await this.s3.send(
       new PutObjectCommand({
         Bucket: bucketName,
         Body: file.buffer,
@@ -136,13 +134,13 @@ export class FilesService {
       console.log('File Found in S3');
       try {
         await this.s3.send(new DeleteObjectCommand(params));
-      } catch (err) {
+      } catch (_err) {
         throw new HttpException(
           FILE_ERRORS.ERROR_DELETING,
           HttpStatus.BAD_REQUEST,
         );
       }
-    } catch (err) {
+    } catch (_err) {
       throw new HttpException(FILE_ERRORS.NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 

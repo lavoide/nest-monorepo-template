@@ -1,12 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-
-import { USER_ERRORS } from './users.contsants';
+import type { Prisma, User } from '@prisma/client';
 import { FilesService } from '../files/files.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 import type { CreateUserDto } from './dto/create-user.dto';
 import type { UpdateUserDto } from './dto/update-user.dto';
-import type { Prisma, User } from '@prisma/client';
+import { USER_ERRORS } from './users.contsants';
 
 @Injectable()
 export class UsersService {

@@ -12,6 +12,7 @@ dist/
 out/
 .next/
 .turbo/
+.astro/
 
 # misc
 .DS_Store

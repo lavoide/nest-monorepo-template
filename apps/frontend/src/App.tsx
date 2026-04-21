@@ -1,15 +1,20 @@
-import './theme/variables.css'
+import './theme/variables.css';
 
-import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from 'react-router-dom';
 
-import { ProtectedRoute } from './components/protected-route'
-import Home from './pages/home'
-import Login from './pages/login'
-import Signup from './pages/signup'
-import { useAuthStore } from './store/useAuthStore'
+import { ProtectedRoute } from './components/protected-route';
+import Home from './pages/home';
+import Login from './pages/login';
+import Signup from './pages/signup';
+import { useAuthStore } from './store/useAuthStore';
 
 const App: React.FC = () => {
-  const { isAuthenticated } = useAuthStore()
+  const { isAuthenticated } = useAuthStore();
 
   return (
     <Router basename="/app">
@@ -17,11 +22,15 @@ const App: React.FC = () => {
         {/* Public Routes */}
         <Route
           path="/login"
-          element={isAuthenticated ? <Navigate to="/home" replace /> : <Login />}
+          element={
+            isAuthenticated ? <Navigate to="/home" replace /> : <Login />
+          }
         />
         <Route
           path="/signup"
-          element={isAuthenticated ? <Navigate to="/home" replace /> : <Signup />}
+          element={
+            isAuthenticated ? <Navigate to="/home" replace /> : <Signup />
+          }
         />
 
         {/* Protected Routes */}
@@ -30,10 +39,15 @@ const App: React.FC = () => {
         </Route>
 
         {/* Default Route */}
-        <Route path="/" element={<Navigate to={isAuthenticated ? '/home' : '/login'} replace />} />
+        <Route
+          path="/"
+          element={
+            <Navigate to={isAuthenticated ? '/home' : '/login'} replace />
+          }
+        />
       </Routes>
     </Router>
-  )
-}
+  );
+};
 
-export default App
+export default App;

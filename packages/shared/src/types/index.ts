@@ -1,2 +1,2 @@
-export * from './enums'
-export * from './generated'
+export * from './enums';
+export * from './generated';

@@ -1,8 +1,6 @@
-import { Test } from '@nestjs/testing';
-
-import { PrismaService } from './prisma.service';
-
 import type { TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
+import { PrismaService } from './prisma.service';
 
 describe('PrismaService', () => {
   let service: PrismaService;
@@ -66,7 +64,7 @@ describe('PrismaService', () => {
       try {
         // This will fail due to missing prisma models, but we just check the env check works
         await service.cleanDb().catch(() => undefined);
-      } catch (e) {
+      } catch {
         // Expected to fail with model access issues in test environment
       }
 

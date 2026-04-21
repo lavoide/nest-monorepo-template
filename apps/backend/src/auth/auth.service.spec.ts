@@ -1,25 +1,23 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
 import * as bcrypt from 'bcryptjs';
-
-import { AuthService } from './auth.service';
 import { MailService } from '../mail/mail.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
-
-import type { TestingModule } from '@nestjs/testing';
+import { AuthService } from './auth.service';
 
 jest.mock('bcryptjs');
 
 describe('AuthService', () => {
   let service: AuthService;
-  let usersService: UsersService;
-  let jwtService: JwtService;
-  let configService: ConfigService;
-  let prismaService: PrismaService;
-  let mailService: MailService;
+  let _usersService: UsersService;
+  let _jwtService: JwtService;
+  let _configService: ConfigService;
+  let _prismaService: PrismaService;
+  let _mailService: MailService;
 
   const mockUsersService = {
     findOne: jest.fn(),
@@ -86,11 +84,11 @@ describe('AuthService', () => {
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    usersService = module.get<UsersService>(UsersService);
-    jwtService = module.get<JwtService>(JwtService);
-    configService = module.get<ConfigService>(ConfigService);
-    prismaService = module.get<PrismaService>(PrismaService);
-    mailService = module.get<MailService>(MailService);
+    _usersService = module.get<UsersService>(UsersService);
+    _jwtService = module.get<JwtService>(JwtService);
+    _configService = module.get<ConfigService>(ConfigService);
+    _prismaService = module.get<PrismaService>(PrismaService);
+    _mailService = module.get<MailService>(MailService);
 
     jest.clearAllMocks();
   });

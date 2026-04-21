@@ -1,11 +1,11 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom';
 
-import { useCurrentUser } from '@/hooks/useAuth'
-import { useAuthStore } from '@/store/useAuthStore'
+import { useCurrentUser } from '@/hooks/useAuth';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export const ProtectedRoute = () => {
-  const { isAuthenticated } = useAuthStore()
-  const { isLoading } = useCurrentUser()
+  const { isAuthenticated } = useAuthStore();
+  const { isLoading } = useCurrentUser();
 
   if (isLoading) {
     return (
@@ -19,8 +19,8 @@ export const ProtectedRoute = () => {
           <p className="mt-2 text-sm text-gray-600">Loading...</p>
         </div>
       </div>
-    )
+    );
   }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />
-}
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+};

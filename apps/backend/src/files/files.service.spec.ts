@@ -1,16 +1,15 @@
+import * as fs from 'node:fs';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Test } from '@nestjs/testing';
-
-import { FilesService } from './files.service';
-import { PrismaService } from '../prisma/prisma.service';
-
 import type { TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
+import { PrismaService } from '../prisma/prisma.service';
+import { FilesService } from './files.service';
 
 describe('FilesService', () => {
   let service: FilesService;
-  let prismaService: PrismaService;
-  let configService: ConfigService;
+  let _prismaService: PrismaService;
+  let _configService: ConfigService;
 
   const mockPrismaService = {
     file: {
@@ -50,8 +49,8 @@ describe('FilesService', () => {
     }).compile();
 
     service = module.get<FilesService>(FilesService);
-    prismaService = module.get<PrismaService>(PrismaService);
-    configService = module.get<ConfigService>(ConfigService);
+    _prismaService = module.get<PrismaService>(PrismaService);
+    _configService = module.get<ConfigService>(ConfigService);
 
     jest.clearAllMocks();
   });
@@ -144,9 +143,6 @@ describe('FilesService', () => {
       mockPrismaService.file.findUnique.mockResolvedValue(fileToDelete);
       mockPrismaService.file.delete.mockResolvedValue(fileToDelete);
 
-      // Mock fs.unlinkSync
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const fs = require('fs');
       jest.spyOn(fs, 'unlinkSync').mockImplementation(() => undefined);
 
       await service.remove({ id: 'file-id-123' });

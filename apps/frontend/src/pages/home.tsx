@@ -1,6 +1,6 @@
-import { ThemeToggle } from '@/components/theme-toggle'
+import { ThemeToggle } from '@/components/theme-toggle';
 
-import ExploreContainer from '../components/explore-container'
+import ExploreContainer from '../components/explore-container';
 
 const Home: React.FC = () => {
   return (
@@ -15,7 +15,7 @@ const Home: React.FC = () => {
         <ExploreContainer />
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

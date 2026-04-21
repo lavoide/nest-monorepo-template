@@ -1,13 +1,12 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
+import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
-
-import { UsersService } from './users.service';
 import { FilesService } from '../files/files.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 import type { CreateUserDto } from './dto/create-user.dto';
 import type { UpdateUserDto } from './dto/update-user.dto';
-import type { TestingModule } from '@nestjs/testing';
+import { UsersService } from './users.service';
 
 describe('UsersService', () => {
   let service: UsersService;

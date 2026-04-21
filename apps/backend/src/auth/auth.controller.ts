@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-
+import { BaseController } from '../common/base.controller';
 import { AuthService } from './auth.service';
 import { AuthDto, SocialAuthDto } from './dto/auth.dto';
 import { ForgotPasswordDto, ResetPasswordDto } from './dto/password.dto';
@@ -18,7 +18,6 @@ import { JwtAuthGuard } from './jwt/jwtAuth.guard';
 import JwtRefreshGuard from './jwt/jwtRefresh.guard';
 import { LocalAuthGuard } from './local/localAuth.guard';
 import RequestWithUser from './requestWithUser.interface';
-import { BaseController } from '../common/base.controller';
 
 @Controller('auth')
 @ApiBearerAuth('JWT-auth')

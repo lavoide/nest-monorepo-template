@@ -1,5 +1,5 @@
-import { LoginForm } from '@/components/login-form'
-import { ThemeToggle } from '@/components/theme-toggle'
+import { LoginForm } from '@/components/login-form';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const Login = () => {
   return (
@@ -9,7 +9,7 @@ const Login = () => {
       </div>
       <LoginForm />
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
