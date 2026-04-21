@@ -1,2 +1,2 @@
-export * from './format'
-export * from './validation'
+export * from './format';
+export * from './validation';

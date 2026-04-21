@@ -1,17 +1,16 @@
 import { Role } from '@monorepo/shared';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
-
-import { EntitiesService } from './entities.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 import type { CreateEntityDto } from './dto/create-entity.dto';
 import type { UpdateEntityDto } from './dto/update-entity.dto';
-import type { TestingModule } from '@nestjs/testing';
+import { EntitiesService } from './entities.service';
 
 describe('EntitiesService', () => {
   let service: EntitiesService;
-  let prismaService: PrismaService;
+  let _prismaService: PrismaService;
 
   const mockPrismaService = {
     entity: {
@@ -56,7 +55,7 @@ describe('EntitiesService', () => {
     }).compile();
 
     service = module.get<EntitiesService>(EntitiesService);
-    prismaService = module.get<PrismaService>(PrismaService);
+    _prismaService = module.get<PrismaService>(PrismaService);
   });
 
   afterEach(() => {

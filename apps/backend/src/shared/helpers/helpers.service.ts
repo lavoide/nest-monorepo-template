@@ -1,10 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-
-import { HELPER_ERRORS, PAGE_SIZE } from './helpers.contsants';
 import { PrismaService } from '../../prisma/prisma.service';
-
 import type { OrderDirectionConstants } from './helpers.contsants';
+import { HELPER_ERRORS, PAGE_SIZE } from './helpers.contsants';
 
 @Injectable()
 export class HelpersService {

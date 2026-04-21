@@ -5,14 +5,13 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-
-import { ENTITY_ERRORS } from './entities.constants';
+import type { Entity, Prisma, User } from '@prisma/client';
 import { AUTH_ERRORS } from '../auth/auth.constants';
 import { PrismaService } from '../prisma/prisma.service';
 
 import type { CreateEntityDto } from './dto/create-entity.dto';
 import type { UpdateEntityDto } from './dto/update-entity.dto';
-import type { Entity, Prisma, User } from '@prisma/client';
+import { ENTITY_ERRORS } from './entities.constants';
 
 @Injectable()
 export class EntitiesService {

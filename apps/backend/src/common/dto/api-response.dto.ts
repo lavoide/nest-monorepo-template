@@ -1,6 +1,5 @@
-import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
-
 import type { Type } from '@nestjs/common';
+import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
 
 export function ApiResponseDto<T>(DataDto: Type<T>) {
   class ApiResponseDtoClass {
